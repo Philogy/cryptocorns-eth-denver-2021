@@ -1,5 +1,5 @@
 const { contract, accounts } = require('@openzeppelin/test-environment')
-const { ether, trackBalance } = require('./utils')
+const { ether, trackBalance, ZERO } = require('./utils')
 
 const [deployer, user1] = accounts
 
@@ -7,6 +7,7 @@ const [deployer, user1] = accounts
 const { BN } = require('bn.js')
 const chai = require('chai')
 chai.use(require('chai-bn')(BN))
+const { expect } = chai
 
 const ICEth = contract.fromArtifact('ICEth')
 const EthDaiLong = contract.fromArtifact('EthDaiLong')
@@ -19,13 +20,8 @@ describe('EthDaiLong', () => {
   it('mints based on deposit', async () => {
     const cTokenTracker = await trackBalance(this.cEth, this.ethDaiLong.address)
 
-    console.log(
-      'await this.cEth.exchangeRateStored(): ',
-      await this.cEth.exchangeRateStored().toString()
-    )
     await this.ethDaiLong.mint({ from: user1, value: ether('2') })
 
-    const diff = await cTokenTracker.delta()
-    console.log('diff: ', diff.toString())
+    expect(await cTokenTracker.delta()).to.be.bignumber.above(ZERO)
   })
 })
