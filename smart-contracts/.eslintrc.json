@@ -9,7 +9,8 @@
     "it": "readonly",
     "artifacts": "readonly",
     "describe": "readonly",
-    "describe": "beforeEach"
+    "beforeEach": "readonly",
+    "expect": "readonly"
   },
   "extends": "eslint:recommended",
   "parserOptions": {

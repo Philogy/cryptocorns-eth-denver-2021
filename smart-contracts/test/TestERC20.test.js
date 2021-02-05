@@ -1,18 +1,15 @@
-const { accounts, contract, web3 } = require('@openzeppelin/test-environment')
-const [main] = accounts
-const { ether } = require('./utils')
+const { contract } = require('@openzeppelin/test-environment')
 
 // Setup Chai for 'expect' or 'should' style assertions (you only need one)
 const { BN } = require('bn.js')
 const chai = require('chai')
 chai.use(require('chai-bn')(BN))
-const { expect } = chai
 
-const TestERC20 = contract.fromArtifact('TestERC20')
+const ERC20 = contract.fromArtifact('ERC20')
 
 describe('ERC20', () => {
   it('something', async () => {
-    const token = await TestERC20.new({ from: main })
-    expect(await token.balanceOf(main)).to.be.bignumber.equal(ether('1000'))
+    const dai = await ERC20.at('0x6b175474e89094c44da98b954eedeac495271d0f')
+    console.log('await dai.name(): ', await dai.name())
   })
 })

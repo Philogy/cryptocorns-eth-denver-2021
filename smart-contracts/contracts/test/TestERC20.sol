@@ -7,4 +7,8 @@ contract TestERC20 is ERC20 {
     constructor() ERC20("Test erc20", "TST") {
         _mint(msg.sender, 1000 ether);
     }
+
+    function mint(address recipient, uint256 amount) external {
+        _mint(recipient, amount);
+    }
 }
