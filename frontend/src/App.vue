@@ -10,5 +10,3 @@ export default {
   components: {}
 }
 </script>
-
-<style src="./assets/styles/tailwind.css" />
