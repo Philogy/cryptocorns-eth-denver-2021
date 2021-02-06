@@ -2,15 +2,15 @@
 pragma solidity ^0.7.6;
 
 interface ILeverToken {
-    function getEquity() external returns(uint256);
+    function getEquity() external returns(uint256, uint256);
 }
 
 contract Debugger {
-    event EquityFetch(uint256 equity);
+    event EquityFetch(uint256 positiveEquity, uint256 negativeEquity);
 
     function getEquity(ILeverToken token) external {
-        uint256 equity = token.getEquity();
+        (uint256 positiveEquity, uint256 negativeEquity) = token.getEquity();
 
-        emit EquityFetch(equity);
+        emit EquityFetch(positiveEquity, negativeEquity);
     }
 }
