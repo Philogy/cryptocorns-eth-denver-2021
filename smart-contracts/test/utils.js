@@ -1,5 +1,6 @@
 const { BN } = require('bn.js')
 const { web3 } = require('@openzeppelin/test-environment')
+const { expect } = require('chai')
 const rlp = require('rlp')
 const keccak = require('keccak')
 
@@ -58,6 +59,13 @@ const trackBalance = async (token, address, setPrev = true) => {
   return balanceTracker
 }
 
+const expectEqualWithinError = (a, b, digits = '0', errorMsg) => {
+  const precision = new BN('10').pow(new BN(digits))
+
+  const diff = a.sub(b).abs()
+  expect(diff).to.be.bignumber.at.most(precision, errorMsg)
+}
+
 module.exports = {
   ZERO,
   bnSum,
@@ -66,5 +74,6 @@ module.exports = {
   bnPerc,
   getDetAddr,
   getTxNonce,
-  trackBalance
+  trackBalance,
+  expectEqualWithinError
 }

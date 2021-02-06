@@ -29,19 +29,17 @@ contract EthDaiLong is ERC20 {
         collateralCToken.mint{ value: msg.value }();
     }
 
-    function getEquity() public view returns(uint256) {
-        (uint256 error1, uint256 value,,) = collateralCToken.getAccountSnapshot(address(this));
-        require(error1 == 0, "Lever Token: error occured");
-        (uint256 error2,, uint256 debt,) = debtCToken.getAccountSnapshot(address(this));
-        require(error2 == 0, "Lever Token: error occured");
+    function getEquity() public returns(uint256) {
+        uint256 value = collateralCToken.balanceOfUnderlying(address(this));
+        uint256 debt = debtCToken.borrowBalanceCurrent(address(this));
 
         uint256 debtAsEth = debt.mul(getDaiPrice()).div(getEthPrice());
 
-        return value.sub(debtAsEth, "Lever Token: No equity");
+        return value.sub(debtAsEth, "Lever Token: Negative equity");
     }
 
     function getDaiPrice() public view returns(uint256) {
-        return priceOracle.price("ETH");
+        return priceOracle.price("DAI");
     }
 
     function getEthPrice() public view returns(uint256) {
