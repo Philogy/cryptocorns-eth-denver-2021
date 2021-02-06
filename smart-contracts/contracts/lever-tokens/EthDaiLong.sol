@@ -11,7 +11,7 @@ contract EthDaiLong is ERC20 {
     using SafeMath for uint256;
 
     ICEth public constant collateralCToken = ICEth(0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5);
-    ICErc20 public constant debtCToken = ICErc20(0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643);
+    ICErc20 public constant debtCToken = ICErc20(0x5d3a536E4D6DbD6114cc1Ead35777bAB948E3643); //dai
 
     ICompPriceOracle public priceOracle = ICompPriceOracle(0x922018674c12a7F0D394ebEEf9B58F186CdE13c1);
 
