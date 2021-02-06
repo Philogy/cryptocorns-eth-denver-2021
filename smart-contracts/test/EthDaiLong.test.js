@@ -1,6 +1,14 @@
 const { contract, accounts } = require('@openzeppelin/test-environment')
 const { expectEvent } = require('@openzeppelin/test-helpers')
-const { ether, trackBalance, ZERO, expectEqualWithinError, bnPerc } = require('./utils')
+const {
+  ether,
+  trackBalance,
+  ZERO,
+  expectEqualWithinError,
+  bnPerc,
+  getDetAddr
+} = require('./utils/general')
+const { takeControlOfOracle } = require('./utils/compound')
 
 const [deployer, user1] = accounts
 
@@ -13,17 +21,24 @@ const { expect } = chai
 const MalleablePriceOracle = contract.fromArtifact('MalleablePriceOracle')
 const EthDaiLong = contract.fromArtifact('EthDaiLong')
 const ICEth = contract.fromArtifact('ICEth')
-const IComptroller = contract.fromArtifact('IComptroller')
 const Debugger = contract.fromArtifact('Debugger')
 
 describe('EthDaiLong', () => {
+  before(async () => {
+    this.oracleAddr = getDetAddr(deployer, 0)
+    await takeControlOfOracle(
+      this.oracleAddr,
+      '0xc0da01a04c3f3e0be433606045bb7017a7323e38',
+      '0x3d9819210a31b4961b30ef54be2aed79b9c9cd3b'
+    )
+  })
   beforeEach(async () => {
-    this.debugger = await Debugger.new()
+    this.priceOracle = await MalleablePriceOracle.new({ from: deployer })
+    expect(this.priceOracle.address).to.equal(this.oracleAddr)
 
-    this.priceOracle = await MalleablePriceOracle.new()
+    this.debugger = await Debugger.new()
     this.ethDaiLong = await EthDaiLong.new(this.priceOracle.address, { from: deployer })
     this.cEth = await ICEth.at(await this.ethDaiLong.collateralCToken())
-    this.comptroller = await IComptroller.at(await this.cEth.comptroller())
   })
   it('mints based on deposit', async () => {
     const leverTokenTracker = await trackBalance(this.ethDaiLong, user1)
@@ -67,4 +82,5 @@ describe('EthDaiLong', () => {
     expectEvent(receipt, 'NegativeRebalance')
     expectEvent.notEmitted(receipt, 'PositiveRebalance')
   })
+  it('does positive rebalance', async () => {})
 })

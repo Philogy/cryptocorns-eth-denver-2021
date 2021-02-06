@@ -9,6 +9,7 @@
     "it": "readonly",
     "artifacts": "readonly",
     "describe": "readonly",
+    "before": "readonly",
     "beforeEach": "readonly",
     "expect": "readonly"
   },
