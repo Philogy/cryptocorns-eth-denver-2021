@@ -44,11 +44,11 @@ export default {
 
     const web3 = new Web3(this.$store.state.provider)
 
-    // Handle chainChanged
-    window.ethereum.on('chainChanged', handleChainChanged)
-    function handleChainChanged() {
-      window.location.reload()
-    }
+    // Handle chainChanged //FIX? issue with reload on Brave (fine on Firefox)
+    // window.ethereum.on('chainChanged', handleChainChanged)
+    // function handleChainChanged() {
+    //   window.location.reload()
+    // }
 
     // Handle user accounts and accountsChanged
     window.ethereum
