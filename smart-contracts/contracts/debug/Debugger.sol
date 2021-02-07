@@ -3,22 +3,16 @@ pragma solidity ^0.7.6;
 
 import "../interfaces/ICToken.sol";
 
-interface ILeverToken {
-    function getEquity() external returns(uint256, uint256);
-}
-
 contract Debugger {
-    event EquityFetch(uint256 positiveEquity, uint256 negativeEquity);
-    event UnderlyingBal(uint256 bal);
+    event DebugMessage(bytes data);
 
-    function getEquity(ILeverToken token) external {
-        (uint256 positiveEquity, uint256 negativeEquity) = token.getEquity();
+    function getReturnData(address target, bytes calldata callData)
+        external
+        payable
+    {
+        (bool success, bytes memory returnData) = target.call{ value: msg.value }(callData);
+        require(success, string(returnData));
 
-        emit EquityFetch(positiveEquity, negativeEquity);
-    }
-
-    function getUnderlyingBalance(ICToken token, address account) external {
-        uint256 underyling = token.balanceOfUnderlying(account);
-        emit UnderlyingBal(underyling);
+        if (returnData.length > 0) emit DebugMessage(returnData);
     }
 }
