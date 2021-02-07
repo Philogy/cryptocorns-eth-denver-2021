@@ -10,6 +10,7 @@
 import { mapState, mapMutations } from 'vuex'
 import detectEthereumProvider from '@metamask/detect-provider'
 import MetaMaskConnect from './components/MetaMaskConnect.vue'
+import Web3 from 'web3'
 
 export default {
   components: {
@@ -41,6 +42,7 @@ export default {
       })
     }
 
+    const web3 = new Web3(this.$store.state.provider)
 
     // Handle chainChanged
     window.ethereum.on('chainChanged', handleChainChanged)
@@ -56,11 +58,13 @@ export default {
         console.error(err)
       })
 
-    window.ethereum.on('accountsChanged', accounts =>
-      this.$store.dispatch('handleAccountsChanged', accounts)
-    )
-
-
+    let accountInterval = setInterval(async () => {
+      let currentAccounts = await web3.eth.getAccounts()
+      if (this.account !== currentAccounts[0]) {
+        this.$store.state.account = currentAccounts[0]
+      }
+    }, 1200)
+    accountInterval
   }
 }
 </script>
