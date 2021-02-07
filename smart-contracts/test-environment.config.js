@@ -1,5 +1,5 @@
 const secrets = require('./secrets')
-const { compWhale } = require('./globals')
+const { compWhale, ethWhale } = require('./globals')
 
 module.exports = {
   accounts: {
@@ -8,6 +8,6 @@ module.exports = {
   },
   node: {
     fork: secrets['infura-endpoint'],
-    unlocked_accounts: [compWhale]
+    unlocked_accounts: [compWhale, ethWhale]
   }
 }

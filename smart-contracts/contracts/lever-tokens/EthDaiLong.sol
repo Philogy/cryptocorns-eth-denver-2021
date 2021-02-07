@@ -24,18 +24,21 @@ contract EthDaiLong is ERC20, IUniswapV2Callee {
     IWETH public constant WETH = IWETH(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2);
 
     uint256 public constant SCALE        = 1000000;
-    uint256 public constant TARGET_RATIO = 668672;
+    uint256 public constant TARGET_RATIO = 666667;
 
     bool internal _currentlySwapping;
 
     event Rebalance(bool positive, uint256 fromRatio, uint256 toRatio);
     event Error(uint256 errorCode);
 
+    event DebugMessage(bytes data);
+
     constructor(address priceOracle_, address pair_)
         ERC20("ETH/DAI leveraged long 3x", "longETH")
     {
         priceOracle = ICompPriceOracle(priceOracle_);
         tokenPair = IUniswapV2Pair(pair_);
+        IERC20(debtCToken.underlying()).approve(address(debtCToken), type(uint256).max);
 
         IComptroller troll = IComptroller(collateralCToken.comptroller());
         address[] memory markets = new address[](2);
@@ -45,7 +48,11 @@ contract EthDaiLong is ERC20, IUniswapV2Callee {
     }
 
     receive() external payable {
-        require(msg.sender == address(WETH), "");
+        require(
+            msg.sender == address(WETH) ||
+            msg.sender == address(collateralCToken),
+            "Lever Token: Unauthorized sender"
+        );
     }
 
     function mint() external payable {
@@ -67,28 +74,34 @@ contract EthDaiLong is ERC20, IUniswapV2Callee {
         (uint256 debtUsd, uint256 collatUsd) = getCurrentCollatRatio();
         uint256 currentRatio = debtUsd.mul(SCALE).div(collatUsd);
 
-        if (currentRatio > TARGET_RATIO) {
-            emit Rebalance(false, 0, 0);
-        } else if (currentRatio < TARGET_RATIO) {
+        if (currentRatio == TARGET_RATIO) return;
+
+        bool positiveRebalance = currentRatio < TARGET_RATIO;
+        _currentlySwapping = true;
+
+        if (positiveRebalance) {
             // p = (r * v - d) / (1 - r)
             uint256 rebalanceValueUsd =
                 TARGET_RATIO.mul(collatUsd).sub(debtUsd.mul(SCALE)).div(
                     SCALE.sub(TARGET_RATIO)
                 );
-
             uint256 ethBorrow = rebalanceValueUsd.div(getEthPrice());
-            _currentlySwapping = true;
-
-            // TODO: generalize amount0 / amount1 selection
             tokenPair.swap(0, ethBorrow, address(this), new bytes(1));
-
-            (uint256 newDebt, uint256 newCollat) = getCurrentCollatRatio();
-            emit Rebalance(
-                true,
-                currentRatio,
-                newDebt.mul(SCALE).div(newCollat)
-            );
+        } else {
+            uint256 rebalanceValueUsd =
+                debtUsd.mul(SCALE).sub(TARGET_RATIO.mul(collatUsd)).div(
+                    SCALE.sub(TARGET_RATIO)
+                );
+            uint256 daiBorrow = rebalanceValueUsd.div(getDaiPrice());
+            tokenPair.swap(daiBorrow, 0, address(this), new bytes(1));
         }
+
+        (uint256 newDebt, uint256 newCollat) = getCurrentCollatRatio();
+        emit Rebalance(
+            positiveRebalance,
+            currentRatio,
+            newDebt.mul(SCALE).div(newCollat)
+        );
     }
 
     function uniswapV2Call(
@@ -105,16 +118,24 @@ contract EthDaiLong is ERC20, IUniswapV2Callee {
         if (amount0 == 0) { // positive rebalance
             WETH.withdraw(amount1); // has to unwrap incoming eth
             collateralCToken.mint{ value: amount1 }();
-
             (uint112 reserve0, uint112 reserve1,) = tokenPair.getReserves();
             uint256 x = uint256(reserve0);
             uint256 y = uint256(reserve1);
-
             uint256 borrowAmount = x.mul(amount1).mul(1000).div(y.sub(amount1).mul(997)).add(1);
             require(debtCToken.borrow(borrowAmount) == 0, "Lever Token: borrow error");
             IERC20(debtCToken.underlying()).transfer(address(tokenPair), borrowAmount);
         } else { // negative rebalanc()
-            revert("Wrong rebalance");
+            debtCToken.repayBorrow(amount0);
+            (uint112 reserve0, uint112 reserve1,) = tokenPair.getReserves();
+            uint256 x = uint256(reserve0);
+            uint256 y = uint256(reserve1);
+            uint256 redeemAmount = y.mul(amount0).mul(1000).div(x.sub(amount0).mul(997)).add(1);
+            require(
+                collateralCToken.redeemUnderlying(redeemAmount) == 0,
+                "Lever token: redeem error"
+            );
+            WETH.deposit{ value: redeemAmount }();
+            WETH.transfer(address(tokenPair), redeemAmount);
         }
 
         _currentlySwapping = false;

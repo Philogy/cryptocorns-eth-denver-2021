@@ -5,4 +5,5 @@ import "./ICToken.sol";
 
 interface ICEth is ICToken {
     function mint() external payable;
+    function repayBorrow() external payable;
 }

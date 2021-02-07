@@ -59,11 +59,14 @@ const trackBalance = async (token, address, setPrev = true) => {
   return balanceTracker
 }
 
-const expectEqualWithinError = (a, b, digits = '0', errorMsg) => {
+const expectEqualWithinPrecision = (a, b, digits = '0', errorMsg) => {
   const precision = new BN('10').pow(new BN(digits))
+  expectEqualWithinError(a, b, precision, errorMsg)
+}
 
+const expectEqualWithinError = (a, b, error, errorMsg) => {
   const diff = a.sub(b).abs()
-  expect(diff).to.be.bignumber.at.most(precision, errorMsg)
+  expect(diff).to.be.bignumber.at.most(error, errorMsg)
 }
 
 module.exports = {
@@ -75,5 +78,6 @@ module.exports = {
   getDetAddr,
   getTxNonce,
   trackBalance,
+  expectEqualWithinPrecision,
   expectEqualWithinError
 }

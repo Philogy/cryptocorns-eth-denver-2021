@@ -35,18 +35,36 @@ const takeControlOfOracle = async (newOracleAddress, governanceAddress, comptrol
 
   const before = Date.now()
   for (let i = 0; i < forwards; i++) {
-    if (i % 1000 === 0) console.log('i: ', i)
+    if (i % 1000 === 0) console.log(`forwarded ${i}/${forwards} blocks`)
     await time.advanceBlock()
   }
   const after = Date.now()
   console.log(`took: ${(after - before) / 1000}s`)
 
   await governance.queue(proposalId)
-
   await time.increase(time.duration.days(2))
+
   await governance.execute(proposalId)
 
   expect(await comptroller.oracle()).to.equal(newOracleAddress)
 }
 
-module.exports = { takeControlOfOracle }
+const expectAccountLiquidity = async (comptroller, account, positive) => {
+  const { 0: errorCode, 1: liquidity, 2: shortfall } = await comptroller.getAccountLiquidity(
+    account
+  )
+
+  expect(errorCode).to.be.bignumber.equal(ZERO)
+
+  const liquidityTest = { value: liquidity, errorMsg: 'Wrong liquidity' }
+  const shortfallTest = { value: shortfall, errorMsg: 'Wrong shortfall' }
+
+  const [expectZero, expectAboveZero] = positive
+    ? [shortfallTest, liquidityTest]
+    : [liquidityTest, shortfallTest]
+
+  expect(expectAboveZero.value).to.be.bignumber.above(ZERO, expectAboveZero.errorMsg)
+  expect(expectZero.value).to.be.bignumber.equal(ZERO, expectZero.errorMsg)
+}
+
+module.exports = { takeControlOfOracle, expectAccountLiquidity }

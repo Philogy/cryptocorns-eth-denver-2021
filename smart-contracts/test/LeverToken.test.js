@@ -1,5 +1,5 @@
 const { contract, accounts } = require('@openzeppelin/test-environment')
-const { ether } = require('./utils/general')
+const { ether, ZERO, expectEqualWithinError } = require('./utils/general')
 
 const [deployer, user1] = accounts
 
@@ -7,6 +7,7 @@ const [deployer, user1] = accounts
 const { BN } = require('bn.js')
 const chai = require('chai')
 chai.use(require('chai-bn')(BN))
+const { expect } = chai
 
 const MalleablePriceOracle = contract.fromArtifact('MalleablePriceOracle')
 const EthDaiLong = contract.fromArtifact('EthDaiLong')
@@ -25,12 +26,19 @@ describe('EthDaiLong', () => {
       { from: deployer }
     )
   })
-  it('simple test', async () => {
+  it('simple mint', async () => {
     const mintAmount = ether('1')
     let receipt = await this.ethDaiLong.mint({ from: user1, value: mintAmount })
+    const TARGET_RATIO = await this.ethDaiLong.TARGET_RATIO()
     const [{ args: rebalance }] = receipt.logs.filter(({ event }) => event === 'Rebalance')
-    console.log('rebalance.positive: ', rebalance.positive)
-    console.log('rebalance.fromRatio.toString(): ', rebalance.fromRatio.toString())
-    console.log('rebalance.toRatio.toString(): ', rebalance.toRatio.toString())
+
+    expect(rebalance.positive).to.be.true
+    expect(rebalance.fromRatio).to.be.bignumber.equal(ZERO)
+    expectEqualWithinError(
+      rebalance.toRatio,
+      TARGET_RATIO,
+      new BN('10000'),
+      `Out of bounds, target: ${TARGET_RATIO.toString()}   actual: ${rebalance.toRatio.toString()}`
+    )
   })
 })
