@@ -18,7 +18,7 @@ export default {
     MetaMaskConnect
   },
   computed: {
-    ...mapState(['counter', 'provider'])
+    ...mapState(['counter', 'provider', 'account'])
   },
   methods: {
     ...mapMutations(['doubleCounter'])

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h3>aaaaaaaa</h3>
     <el-button @click="connect">
       Connect to MetaMask
     </el-button>
@@ -8,9 +7,13 @@
 </template>
 
 <script>
-// import {}
+import { mapActions } from 'vuex'
 
-export default {}
+export default {
+  methods: {
+    ...mapActions(['connect'])
+  }
+}
 </script>
 
 <style></style>
