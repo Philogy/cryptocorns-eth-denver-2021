@@ -3,8 +3,6 @@
     <router-view></router-view>
     <h1>App</h1>
     <MetaMaskConnect v-if="!account" />
-    <p>counter: {{ counter }}</p>
-    <el-button @click="doubleCounter">double</el-button>
   </div>
 </template>
 
@@ -18,10 +16,10 @@ export default {
     MetaMaskConnect
   },
   computed: {
-    ...mapState(['counter', 'provider', 'account'])
+    ...mapState(['provider', 'account'])
   },
   methods: {
-    ...mapMutations(['doubleCounter'])
+    ...mapMutations([])
   },
   async mounted() {
     // Detect the MetaMask Ethereum provider
@@ -29,13 +27,20 @@ export default {
 
     if (this.$store.state.provider) {
       if (this.$store.state.provider !== window.ethereum) {
-        console.error('Do you have multiple wallets installed?') //TODO present interface (if provider returned by detectEthereumProvider is not same as window.ethereum, something is overwriting it, perhaps anoter wallet)
+        this.$message({
+          message: 'Problem with MetaMask. Do you have multiple wallets installed?',
+          type: 'error'
+        })
       } else {
-        console.log('Ethereum provider successfully detected.') //TODO maybe consider a success indicator?
+        // Ethereum provider detected
       }
     } else {
-      console.warn('Install MetaMask') //TODO present interface
+      this.$message({
+        message: 'Please install MetaMask',
+        type: 'warning'
+      })
     }
+
 
     // Handle chainChanged
     window.ethereum.on('chainChanged', handleChainChanged)
@@ -46,12 +51,16 @@ export default {
     // Handle user accounts and accountsChanged
     window.ethereum
       .request({ method: 'eth_accounts' })
-      .then((accounts) => this.$store.dispatch('handleAccountsChanged', accounts))
-      .catch((err) => {
+      .then(accounts => this.$store.dispatch('handleAccountsChanged', accounts))
+      .catch(err => {
         console.error(err)
       })
 
-    window.ethereum.on('accountsChanged', (accounts) => this.$store.dispatch('handleAccountsChanged', accounts)) //TODO prob change to web3js (don't think this will realise account signed off entirely)
+    window.ethereum.on('accountsChanged', accounts =>
+      this.$store.dispatch('handleAccountsChanged', accounts)
+    )
+
+
   }
 }
 </script>

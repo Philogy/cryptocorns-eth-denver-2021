@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-button @click="connect">
-      Connect to MetaMask
+      CONNECT WALLET
     </el-button>
   </div>
 </template>

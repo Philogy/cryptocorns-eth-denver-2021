@@ -5,14 +5,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    counter: 1,
     provider: null,
     account: null
   },
   mutations: {
-    doubleCounter(state) {
-      state.counter *= 2
-    }
   },
   actions: {
     async connect({ dispatch }) {
@@ -20,20 +16,28 @@ export default new Vuex.Store({
         const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
         dispatch('handleAccountsChanged', accounts)
       } catch (err) {
-        if (err.code === 4001) {
-          console.log('Connect to MetaMask.') //TODO interface
+        if (err.code === 4001) { // 4001: rejected by user
+          this.$message({
+            message: 'Please connect to MetaMask.',
+            type: 'warning'
+          })
         } else {
-          console.error(err) //TODO interface
+          this.$message({
+            message: 'Error connecting to MetaMask.',
+            type: 'error'
+          })
+          console.error(err)
         }
       }
     },
-    handleAccountsChanged({ state }, accounts) {
-      if (accounts.length === 0) {
-        console.log('MetaMask is locked or user has not connected any accounts') // TODO "Please connect to MetaMask"
+    async handleAccountsChanged({ state }, accounts) {
+      if (accounts.length === 0) { // MetaMask is locked or user has not connected any accounts
+        this.$message({
+          message: 'Please connect to MetaMask',
+          type: 'warning'
+        })
       } else if (accounts[0] !== state.account) {
-        console.log('accounts....', accounts)
-        state.account = accounts[0]
-        console.log('state.account...', state.account)
+        state.account = await accounts[0]
       }
     }
   }
