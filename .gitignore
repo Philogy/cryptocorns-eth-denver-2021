@@ -2,3 +2,4 @@ node_modules
 secrets.json
 .tern-port
 build
+.ipynb_checkpoints

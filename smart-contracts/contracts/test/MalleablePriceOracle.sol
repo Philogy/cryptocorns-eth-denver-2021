@@ -13,6 +13,10 @@ contract MalleablePriceOracle {
         _setPrices[ticker] = newPrice;
     }
 
+    function resetPrice(string memory ticker) external {
+        _setPrices[ticker] = 0;
+    }
+
     function price(string memory ticker) external view returns(uint256) {
         uint256 setPrice_ = _setPrices[ticker];
 
