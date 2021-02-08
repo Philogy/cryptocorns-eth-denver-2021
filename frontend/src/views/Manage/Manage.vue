@@ -62,7 +62,7 @@
 
 <script>
 import MetaMaskConnect from '../../components/MetaMaskConnect'
-import { compToSign } from '../../utils/general'
+import { compToSign } from '@/utils/misc'
 import tokens from '../../eth/tokens'
 
 export default {
