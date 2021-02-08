@@ -12,8 +12,7 @@ const getTokenAddress = symbol => {
 const getTokenIcon = symbol => {
   if (symbol === 'ETH') return 'https://info.uniswap.org/static/media/eth.73dabb37.png'
   const address = getTokenAddress(symbol)
-  const url = `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
-  return url
+  return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
 }
 
 export { tokenAddresses, getTokenIcon, getTokenAddress }
