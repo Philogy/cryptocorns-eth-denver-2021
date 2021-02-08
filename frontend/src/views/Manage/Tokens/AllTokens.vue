@@ -18,7 +18,7 @@
 
 <script>
 import tokens from '@/eth/tokens'
-import { capitalize } from '@/utils/general'
+import { capitalize } from '@/utils/misc'
 import { getTokenIcon } from '@/utils/tokens'
 
 export default {
