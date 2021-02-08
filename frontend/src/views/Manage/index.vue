@@ -4,7 +4,7 @@
       <div
         @click="returnHome"
         class="cursor-pointer h-1/6 flex items-center
-        justify-center opacity-60"
+        justify-center opacity-90"
       >
         <img src="../../assets/icons/lever logo.svg" class="h-16" />
         <span class="text-2xl">VERAGER</span>
@@ -19,7 +19,8 @@
           v-for="menuPath in menuPaths"
           :key="menuPath.dest"
           :to="`/manage/${menuPath.dest}`"
-          class="flex my-4 items-center"
+          class="flex my-4 items-center transform hover:bg-tgray-500 h-16 p-4
+          rounded-lg"
         >
           <div
             class="w-7 h-7 bg-tgray-400 p-1 flex justify-center items-center
@@ -33,9 +34,9 @@
     </el-aside>
     <el-container class="bg-tgray-800 h-screen flex flex-col">
       <div class="w-full h-1/6 px-8 flex items-center">
-        <div class="w-full flex justify-between ">
+        <div class="w-full flex justify-between items-center space-x-16">
           <el-autocomplete
-            class="w-full mr-16 flex"
+            class="w-full flex"
             placeholder="Search Leveraged Tokens"
             :fetch-suggestions="findTokens"
             v-model="tokenSearchText"
