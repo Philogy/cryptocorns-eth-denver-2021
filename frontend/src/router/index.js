@@ -3,13 +3,14 @@ import VueRouter from 'vue-router'
 
 import Home from '../views/Home'
 import Manage from '../views/Manage'
+import manageSubRoutes from '../views/Manage/sub-routes'
 
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/', redirect: '/home' },
   { path: '/home', name: 'Home', component: Home },
-  Manage
+  { path: '/manage', component: Manage, children: manageSubRoutes }
 ]
 
 const router = new VueRouter({
