@@ -74,7 +74,9 @@ contract EthDaiLong is ERC20, IUniswapV2Callee {
         (uint256 debtUsd, uint256 collatUsd) = getCurrentCollatRatio();
         uint256 currentRatio = debtUsd.mul(SCALE).div(collatUsd);
 
-        if (currentRatio == TARGET_RATIO) return;
+        if (currentRatio == TARGET_RATIO) {
+            return;
+        }
 
         bool positiveRebalance = currentRatio < TARGET_RATIO;
         _currentlySwapping = true;

@@ -1,10 +1,11 @@
 <template>
   <el-container>
-    <el-header>
-      <div id="token-submenu" class="h-1/4">
+    <el-header class="flex justify-between">
+      <div id="token-submenu">
         <router-link to="/manage/tokens/all">All</router-link>
         <router-link to="/manage/tokens/personal">My Tokens</router-link>
       </div>
+      <account-display></account-display>
     </el-header>
     <el-main>
       <router-view></router-view>
@@ -13,7 +14,11 @@
 </template>
 
 <script>
-export default {}
+import AccountDisplay from '@/components/AccountDisplay'
+
+export default {
+  components: { AccountDisplay }
+}
 </script>
 
 <style>
