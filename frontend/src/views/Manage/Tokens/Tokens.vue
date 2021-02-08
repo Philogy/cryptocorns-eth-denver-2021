@@ -18,10 +18,10 @@ export default {}
 
 <style>
 #token-submenu > .router-link-active {
-  @apply text-blue-500 border-b-4 pb-1 border-blue-500;
+  @apply text-blue-500 border-b-3 pb-1 border-blue-500;
 }
 
 #token-submenu > a {
-  @apply mx-2 text-xl font-bold px-4;
+  @apply mx-1 text-xl font-bold px-4 text-tgray-300;
 }
 </style>

@@ -1,4 +1,5 @@
-import Tokens from './main'
+import Tokens from './Tokens'
+
 import AllTokens from './AllTokens'
 import MyTokens from './MyTokens'
 

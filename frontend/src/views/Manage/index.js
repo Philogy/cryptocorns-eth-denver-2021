@@ -1,11 +1,16 @@
-import { defaultRoute } from '../../utils/general'
+import Manage from './Manage'
 
-import Manage from './main'
+import { defaultPath } from '@/utils/misc'
 import Tokens from './Tokens'
 import Trade from './Trade'
 
 export default {
-  path: 'manage',
+  path: '/manage',
   component: Manage,
-  children: [defaultRoute(Tokens), Tokens, { path: 'trade', component: Trade }]
+  children: [
+    defaultPath(Tokens),
+    Tokens,
+    { path: '', redirect: 'tokens' },
+    { path: 'trade', component: Trade }
+  ]
 }
