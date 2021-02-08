@@ -2,12 +2,14 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import Home from '../views/Home'
+import Manage from '../views/Manage'
 
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/', redirect: '/home' },
-  { path: '/home', name: 'Home', component: Home }
+  { path: '/home', name: 'Home', component: Home },
+  Manage
 ]
 
 const router = new VueRouter({
