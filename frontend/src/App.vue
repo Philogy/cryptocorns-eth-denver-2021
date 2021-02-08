@@ -1,21 +1,15 @@
 <template>
-  <div id="app">
+  <div id="app" class="m-0 text-white">
     <router-view></router-view>
-    <h1>App</h1>
-    <MetaMaskConnect v-if="!account" />
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations } from 'vuex'
 import detectEthereumProvider from '@metamask/detect-provider'
-import MetaMaskConnect from './components/MetaMaskConnect.vue'
 import Web3 from 'web3'
 
 export default {
-  components: {
-    MetaMaskConnect
-  },
   computed: {
     ...mapState(['provider', 'account'])
   },
@@ -68,3 +62,5 @@ export default {
   }
 }
 </script>
+
+<style src="./assets/index.css"></style>
