@@ -1,39 +1,42 @@
 <template>
-  <div>
-    <el-container id="main-container" class="h-screen">
-      <el-aside class="flex flex-col h-screen bg-tgray-800 text-white">
-        <div
-          @click="returnHome"
-          class="cursor-pointer h-1/6 flex items-center
+  <div class="bg-tgray-800">
+    <div class="bg-landing-page bg-no-repeat bg-cover">
+      <el-container id="main-container" class="h-screen">
+        <el-aside class="flex flex-col h-screen text-white">
+          <div
+            @click="returnHome"
+            class="cursor-pointer h-1/6 flex items-center
         justify-center opacity-90"
-        >
-          <img src="../assets/icons/lever logo.svg" class="h-16" />
-          <span class="text-2xl">VERAGER</span>
-        </div>
-      </el-aside>
-      <el-container class="bg-tgray-800 h-screen flex flex-col">
-        <div class="w-full h-1/6 px-8 flex items-center">
-          <div class="w-full flex justify-end items-center space-x-16">
-            <MetaMaskConnect />
+          >
+            <img src="../assets/icons/lever logo.svg" class="h-16" />
+            <span class="text-2xl">VERAGER</span>
           </div>
-        </div>
+        </el-aside>
+        <el-container class="h-screen flex flex-col">
+          <div class="w-full h-1/6 px-8 flex items-center">
+            <div class="w-full flex justify-end items-center space-x-16">
+              <MetaMaskConnect />
+            </div>
+          </div>
+        </el-container>
       </el-container>
-    </el-container>
 
-    <el-container id="landing-info">
-      <div id="landing-info-h1">
-        <h1>Leverage Tokens For Optimal Liquidity Value</h1>
-      </div>
-      <h2 id="landing-info-h2">
-        Enjoy increased leverage without risk of liquidation. With leveraged tokens, you don't have
-        to worry about margin, collateral, liquidation prices and funding rates.
-      </h2>
+      <main class="el-container flex flex-col items-center">
+        <div id="landing-info-h1">
+          <h1>Leverage Tokens For Optimal Liquidity Value</h1>
+        </div>
 
-      <el-button id="trade-now" type="primary" @click="goToManagePanel" class="w-52 h-16">
-        TRADE NOW
-        <i class="el-icon-right"></i>
-      </el-button>
-    </el-container>
+        <h2 id="landing-info-h2">
+          Enjoy increased leverage without risk of liquidation. With leveraged tokens, you don't
+          have to worry about margin, collateral, liquidation prices and funding rates.
+        </h2>
+
+        <el-button id="trade-now" type="primary" @click="goToManagePanel" class="w-52 h-16">
+          TRADE NOW
+          <i class="el-icon-right"></i>
+        </el-button>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -55,12 +58,11 @@ MetaMaskConnect {
   color: #fff;
   float: right;
 }
-#trade-now {
-  font-size: 17px;
+main {
+  height: calc(100vh - 210px) !important;
 }
 #main-container {
-  max-height: 160px;
-  background-image: url('../assets/landing-bg.svg');
+  max-height: 210px;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: center;
@@ -68,21 +70,25 @@ MetaMaskConnect {
 #landing-info {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 100%;
 }
 #landing-info-h1 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  height: 100px;
+  max-width: 780px;
   font-size: 58px;
+  text-align: center;
+  margin-bottom: 14px;
+  flex-basis: 205px;
 }
 #landing-info-h2 {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  height: 100px;
+  max-width: 762px;
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 26px;
+  flex-basis: 140px;
+}
+#trade-now {
+  font-size: 17px;
 }
 </style>
