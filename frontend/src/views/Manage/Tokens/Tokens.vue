@@ -1,6 +1,6 @@
 <template>
   <el-container>
-    <el-header class="flex justify-between">
+    <el-header class="flex justify-between items-center">
       <div id="token-submenu">
         <router-link to="/manage/tokens/all">All</router-link>
         <router-link to="/manage/tokens/personal">My Tokens</router-link>
