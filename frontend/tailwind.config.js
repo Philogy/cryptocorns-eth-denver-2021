@@ -18,6 +18,9 @@ module.exports = {
         },
         tblue: {
           200: '#2F80ED'
+        },
+        tred: {
+          100: '#CD6767'
         }
       },
       fontFamily: {
@@ -32,7 +35,8 @@ module.exports = {
     extend: {
       backgroundColor: ['hover', 'disabled'],
       opacity: ['disabled'],
-      cursor: ['disabled']
+      cursor: ['disabled'],
+      textColor: ['active']
     }
   },
   plugins: []
