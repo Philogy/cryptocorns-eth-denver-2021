@@ -26,14 +26,36 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    async handleAccountsChanged({ state }, { accounts, messageCb }) {
-      if (accounts.length === 0) {
-        messageCb({
-          message: 'Please connect to MetaMask',
-          type: 'warning'
-        })
+    async handleAccountsChanged({ state }, { accounts: newAccounts, messageCb }) {
+      const prevAccounts = state.accounts
+
+      if (prevAccounts.length === 0) {
+        if (newAccounts.length === 0) {
+          messageCb({
+            message: 'Error fetching accounts',
+            type: 'error'
+          })
+        } else {
+          messageCb({
+            message: 'Successfully connected wallet',
+            type: 'success'
+          })
+        }
+      } else {
+        if (newAccounts.length === 0) {
+          messageCb({
+            message: 'Your wallet has been disconnected',
+            type: 'warning'
+          })
+        } else if (newAccounts[0] !== prevAccounts[0]) {
+          messageCb({
+            message: 'Switched account',
+            type: 'info'
+          })
+        }
       }
-      state.accounts = accounts
+
+      state.accounts = newAccounts
     },
     async connect({ state, dispatch }, messageCb) {
       try {
