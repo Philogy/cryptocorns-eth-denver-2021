@@ -22,7 +22,10 @@ module.exports = {
       },
       fontFamily: {
         serif: ['Work Sans']
-      }
+      },
+      backgroundImage: theme => ({
+        'landing-page': "url('landing-bg.svg')"
+      })
     }
   },
   variants: {
