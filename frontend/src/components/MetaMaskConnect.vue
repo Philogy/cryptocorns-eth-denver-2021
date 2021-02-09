@@ -34,6 +34,7 @@ export default {
       setTimeout(async () => {
         try {
           await this.$store.dispatch('connect', this.$message)
+          this.$emit('connected')
         } catch (err) {
           this.$message({
             message: `Unexpected error occured: ${err}`,
