@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cd frontend && npm install && npm run build && cd ../backend && npm install"
   },
+  "devDependencies": {
+    "@vue/cli-service": "~4.5.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MrClottom/cryptocorns-eth-denver-2021.git"
@@ -17,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/MrClottom/cryptocorns-eth-denver-2021/issues"
   },
-  "homepage": "https://github.com/MrClottom/cryptocorns-eth-denver-2021#readme"
+  "homepage": "https://github.com/MrClottom/cryptocorns-eth-denver-2021#readme",
+  "engines": {
+    "node": "15.x"
+  }
 }
