@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/MrClottom/cryptocorns-eth-denver-2021#readme",
   "dependencies": {
-    "connect-history-api-fallback": "^1.6.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
