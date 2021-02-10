@@ -31,7 +31,40 @@
           <span class="text-xl font-medium">{{ menuPath.text }}</span>
         </router-link>
       </div>
+
+      <footer>
+        <div>
+          <el-button type="text" @click="dialogVisible = true">
+            <img src="../../assets/icons/email.svg" alt="Email" class="icon" />
+          </el-button>
+          <el-button type="text" @click="dialogVisible = true">
+            <img src="../../assets/icons/telegram.svg" alt="Telegram" class="icon" />
+          </el-button>
+          <el-button type="text" @click="dialogVisible = true">
+            <img src="../../assets/icons/twitter.svg" alt="Twitter" class="icon" />
+          </el-button>
+          <el-button type="text" @click="dialogVisible = true">
+            <img src="../../assets/icons/github.svg" alt="Github" class="icon" />
+          </el-button>
+          <el-button type="text" @click="dialogVisible = true"> </el-button>
+        </div>
+
+        <el-dialog
+          title="Tips"
+          :visible.sync="dialogVisible"
+          width="30%"
+          :before-close="handleClose"
+          class="w-56 h-64 text-center bg-orange-500 rounded-lg"
+        >
+          <span>This is a message</span>
+          <span slot="footer" class="dialog-footer">
+            <!-- <el-button @click="dialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="dialogVisible = false">Confirm</el-button> -->
+          </span>
+        </el-dialog>
+      </footer>
     </el-aside>
+
     <el-container class="bg-tgray-800 h-screen flex flex-col">
       <div class="w-full h-1/6 px-8 flex items-center">
         <div class="w-full flex justify-between items-center space-x-16">
@@ -75,7 +108,8 @@ export default {
       { text: 'Rebalance', icon: 'el-icon-setting', dest: 'rebalance' }
     ],
     tokens,
-    filterOutNoMatch: true
+    filterOutNoMatch: true,
+    dialogVisible: false
   }),
   methods: {
     returnHome() {
@@ -104,6 +138,9 @@ export default {
       } else {
         cb(tokens)
       }
+    },
+    handleClose(done) {
+      done()
     }
   }
 }
@@ -123,5 +160,24 @@ export default {
 }
 .el-input > input.el-input__inner::placeholder {
   @apply text-base text-tgray-200 text-opacity-60;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  margin-bottom: 18px;
+  justify-content: center;
+}
+footer > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 204px;
+}
+.icon {
+  width: 18px;
 }
 </style>
