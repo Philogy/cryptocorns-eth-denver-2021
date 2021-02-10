@@ -39,7 +39,12 @@
             <img src="../../assets/icons/email.svg" alt="Email" class="icon" />
           </el-button>
           <el-button type="text" @click="telegramVisible = true">
-            <img src="../../assets/icons/telegram.svg" alt="Telegram" class="icon" />
+            <img src="../../assets/icons/telegram.svg"
+              onmouseover="this.src='/img/telegram-highlight.svg';"
+              onmouseout="this.src='/img/telegram.svg';"
+
+              class="icon"
+            />
           </el-button>
           <el-button type="text" @click="twitterVisible = true">
             <img src="../../assets/icons/twitter.svg" alt="Twitter" class="icon" />
@@ -218,7 +223,7 @@ footer > div {
   width: 204px;
 }
 .icon {
-  width: 18px;
+  width: 19px;
 }
 .modal {
   /* position: absolute; */
