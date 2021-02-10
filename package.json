@@ -1,0 +1,21 @@
+{
+  "name": "verager-protocol",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrClottom/cryptocorns-eth-denver-2021.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrClottom/cryptocorns-eth-denver-2021/issues"
+  },
+  "homepage": "https://github.com/MrClottom/cryptocorns-eth-denver-2021#readme"
+}

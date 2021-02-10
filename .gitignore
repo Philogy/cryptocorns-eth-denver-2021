@@ -3,3 +3,4 @@ secrets.json
 .tern-port
 build
 .ipynb_checkpoints
+/backend/static
