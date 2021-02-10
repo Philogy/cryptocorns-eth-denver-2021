@@ -34,36 +34,73 @@
 
       <footer>
         <div>
-          <el-button type="text" @click="dialogVisible = true">
+          <!-- TODO add the blue icons on hover (either use icons or make blue) -->
+          <el-button type="text" @click="emailVisible = true">
             <img src="../../assets/icons/email.svg" alt="Email" class="icon" />
           </el-button>
-          <el-button type="text" @click="dialogVisible = true">
+          <el-button type="text" @click="telegramVisible = true">
             <img src="../../assets/icons/telegram.svg" alt="Telegram" class="icon" />
           </el-button>
-          <el-button type="text" @click="dialogVisible = true">
+          <el-button type="text" @click="twitterVisible = true">
             <img src="../../assets/icons/twitter.svg" alt="Twitter" class="icon" />
           </el-button>
-          <el-button type="text" @click="dialogVisible = true">
+          <el-button type="text" @click="githubVisible = true">
             <img src="../../assets/icons/github.svg" alt="Github" class="icon" />
           </el-button>
-          <el-button type="text" @click="dialogVisible = true"> </el-button>
         </div>
       </footer>
     </el-aside>
 
-    <el-dialog
-      title="Tips"
-      :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose"
-      class="modal"
-    >
-      <span>Email</span>
-      <span slot="footer" class="dialog-footer">
-        <!-- <el-button @click="dialogVisible = false">Cancel</el-button>
-            <el-button type="primary" @click="dialogVisible = false">Confirm</el-button> -->
-      </span>
-    </el-dialog>
+    <div>
+      <el-dialog
+        title="Tips"
+        :visible.sync="emailVisible"
+        width="30%"
+        :before-close="handleClose"
+        class="modal"
+      >
+        <span>Email</span>
+        <span slot="footer" class="dialog-footer">
+          <!-- TODO: Add details -->
+        </span>
+      </el-dialog>
+      <el-dialog
+        title="Tips"
+        :visible.sync="telegramVisible"
+        width="30%"
+        :before-close="handleClose"
+        class="modal"
+      >
+        <span>Telegram</span>
+        <span slot="footer" class="dialog-footer">
+          <!-- TODO: Add details -->
+        </span>
+      </el-dialog>
+      <el-dialog
+        title="Tips"
+        :visible.sync="twitterVisible"
+        width="30%"
+        :before-close="handleClose"
+        class="modal"
+      >
+        <span>Twitter</span>
+        <span slot="footer" class="dialog-footer">
+          <!-- TODO: Add details -->
+        </span>
+      </el-dialog>
+      <el-dialog
+        title="Tips"
+        :visible.sync="githubVisible"
+        width="30%"
+        :before-close="handleClose"
+        class="modal"
+      >
+        <span>Github</span>
+        <span slot="footer" class="dialog-footer">
+          <!-- TODO: Add details -->
+        </span>
+      </el-dialog>
+    </div>
 
     <el-container class="bg-tgray-800 h-screen flex flex-col">
       <div class="w-full h-1/6 px-8 flex items-center">
@@ -109,7 +146,10 @@ export default {
     ],
     tokens,
     filterOutNoMatch: true,
-    dialogVisible: false
+    emailVisible: false,
+    telegramVisible: false,
+    twitterVisible: false,
+    githubVisible: false,
   }),
   methods: {
     returnHome() {
@@ -168,7 +208,7 @@ footer {
   display: flex;
   flex-direction: row;
   width: 300px;
-  margin-bottom: 18px;
+  margin-bottom: 17px;
   justify-content: center;
 }
 footer > div {
