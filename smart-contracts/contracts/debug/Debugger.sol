@@ -13,6 +13,8 @@ contract Debugger {
         (bool success, bytes memory returnData) = target.call{ value: msg.value }(callData);
         require(success, string(returnData));
 
-        if (returnData.length > 0) emit DebugMessage(returnData);
+        if (returnData.length > 0) {
+            emit DebugMessage(returnData);
+        }
     }
 }

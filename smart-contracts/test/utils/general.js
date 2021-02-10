@@ -32,7 +32,7 @@ class _BalanceTracker {
   }
 
   async _get() {
-    if (this.token === null) return await web3.eth.getBalance(this.address)
+    if (this.token === null) return new BN(await web3.eth.getBalance(this.address))
     return await this.token.balanceOf(this.address)
   }
 
@@ -45,10 +45,8 @@ class _BalanceTracker {
 
   async delta(resetPrev = true) {
     const balance = await this._get()
-
     const difference = balance.sub(this.prev)
     if (resetPrev) this.prev = balance
-
     return difference
   }
 }
