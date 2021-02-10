@@ -48,22 +48,22 @@
           </el-button>
           <el-button type="text" @click="dialogVisible = true"> </el-button>
         </div>
-
-        <el-dialog
-          title="Tips"
-          :visible.sync="dialogVisible"
-          width="30%"
-          :before-close="handleClose"
-          class="w-56 h-64 text-center bg-orange-500 rounded-lg"
-        >
-          <span>This is a message</span>
-          <span slot="footer" class="dialog-footer">
-            <!-- <el-button @click="dialogVisible = false">Cancel</el-button>
-            <el-button type="primary" @click="dialogVisible = false">Confirm</el-button> -->
-          </span>
-        </el-dialog>
       </footer>
     </el-aside>
+
+    <el-dialog
+      title="Tips"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose"
+      class="modal"
+    >
+      <span>Email</span>
+      <span slot="footer" class="dialog-footer">
+        <!-- <el-button @click="dialogVisible = false">Cancel</el-button>
+            <el-button type="primary" @click="dialogVisible = false">Confirm</el-button> -->
+      </span>
+    </el-dialog>
 
     <el-container class="bg-tgray-800 h-screen flex flex-col">
       <div class="w-full h-1/6 px-8 flex items-center">
@@ -179,5 +179,11 @@ footer > div {
 }
 .icon {
   width: 18px;
+}
+.modal {
+  /* position: absolute; */
+  left: 0;
+  margin: auto;
+  z-index: 3;
 }
 </style>
