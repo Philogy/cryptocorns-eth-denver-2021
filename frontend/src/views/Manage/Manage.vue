@@ -34,24 +34,46 @@
 
       <footer>
         <div>
-          <!-- TODO add the blue icons on hover (either use icons or make blue) -->
-          <el-button type="text" @click="emailVisible = true">
-            <img src="../../assets/icons/email.svg" alt="Email" class="icon" />
-          </el-button>
-          <el-button type="text" @click="telegramVisible = true">
-            <img src="../../assets/icons/telegram.svg"
-              onmouseover="this.src='/img/telegram-highlight.svg';"
-              onmouseout="this.src='/img/telegram.svg';"
-
+          <button type="text" @click="emailVisible = true">
+            <img
+              :src="hovered === 'email' ? icons.email.hover : icons.email.default"
+              @mouseover="hovered = 'email'"
+              @mouseleave="hovered = null"
               class="icon"
+              alt="Email"
             />
-          </el-button>
-          <el-button type="text" @click="twitterVisible = true">
-            <img src="../../assets/icons/twitter.svg" alt="Twitter" class="icon" />
-          </el-button>
-          <el-button type="text" @click="githubVisible = true">
-            <img src="../../assets/icons/github.svg" alt="Github" class="icon" />
-          </el-button>
+          </button>
+          <button type="text" @click="telegramVisible = true">
+            <img
+              :src="hovered === 'telegram' ? icons.telegram.hover : icons.telegram.default"
+              @mouseover="hovered = 'telegram'"
+              @mouseleave="hovered = null"
+              class="icon"
+              alt="Telegram"
+            />
+          </button>
+          <button type="text" @click="twitterVisible = true">
+            <img
+              :src="hovered === 'twitter' ? icons.twitter.hover : icons.twitter.default"
+              @mouseover="hovered = 'twitter'"
+              @mouseleave="hovered = null"
+              class="icon"
+              alt="Twitter"
+            />
+          </button>
+          <button
+            type="text"
+            @click="githubVisible = true"
+           
+            @mouseover="hovered = 'github'"
+            @mouseleave="hovered = null"
+          >
+            <img
+              :src="hovered === 'github' ? icons.github.hover : icons.github.default"
+              class="icon"
+              alt="Github"
+            />
+          </button>
         </div>
       </footer>
     </el-aside>
@@ -155,6 +177,25 @@ export default {
     telegramVisible: false,
     twitterVisible: false,
     githubVisible: false,
+    hovered: null,
+    icons: {
+      email: {
+        default: require('../../assets/icons/email.svg'),
+        hover: require('../../assets/icons/email-highlight.svg')
+      },
+      telegram: {
+        default: require('../../assets/icons/telegram.svg'),
+        hover: require('../../assets/icons/telegram-highlight.svg')
+      },
+      twitter: {
+        default: require('../../assets/icons/twitter.svg'),
+        hover: require('../../assets/icons/twitter-highlight.svg')
+      },
+      github: {
+        default: require('../../assets/icons/github.svg'),
+        hover: require('../../assets/icons/github-highlight.svg')
+      }
+    }
   }),
   methods: {
     returnHome() {
@@ -221,12 +262,12 @@ footer > div {
   flex-direction: row;
   justify-content: space-around;
   width: 204px;
+  margin-bottom: 6px;
 }
 .icon {
   width: 19px;
 }
 .modal {
-  /* position: absolute; */
   left: 0;
   margin: auto;
   z-index: 3;
