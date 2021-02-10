@@ -64,7 +64,6 @@
           <button
             type="text"
             @click="githubVisible = true"
-           
             @mouseover="hovered = 'github'"
             @mouseleave="hovered = null"
           >
@@ -80,52 +79,52 @@
 
     <div>
       <el-dialog
-        title="Tips"
+        title="Email"
         :visible.sync="emailVisible"
         width="30%"
         :before-close="handleClose"
         class="modal"
       >
-        <span>Email</span>
-        <span slot="footer" class="dialog-footer">
-          <!-- TODO: Add details -->
-        </span>
+        <ul v-for="person in personalDetails" :key="person" class="person">
+          <li class="name">{{ person.name }}</li>
+          <li class="info">{{ person.email }}</li>
+        </ul>
       </el-dialog>
       <el-dialog
-        title="Tips"
+        title="Telegram"
         :visible.sync="telegramVisible"
         width="30%"
         :before-close="handleClose"
         class="modal"
       >
-        <span>Telegram</span>
-        <span slot="footer" class="dialog-footer">
-          <!-- TODO: Add details -->
-        </span>
+        <ul v-for="person in personalDetails" :key="person" class="person">
+          <li class="name">{{ person.name }}</li>
+          <li class="info">{{ person.telegram }}</li>
+        </ul>
       </el-dialog>
       <el-dialog
-        title="Tips"
+        title="Twitter"
         :visible.sync="twitterVisible"
         width="30%"
         :before-close="handleClose"
         class="modal"
       >
-        <span>Twitter</span>
-        <span slot="footer" class="dialog-footer">
-          <!-- TODO: Add details -->
-        </span>
+        <ul v-for="person in personalDetails" :key="person" class="person">
+          <li class="name">{{ person.name }}</li>
+          <li class="info">{{ person.twitter }}</li>
+        </ul>
       </el-dialog>
       <el-dialog
-        title="Tips"
+        title="Github"
         :visible.sync="githubVisible"
         width="30%"
         :before-close="handleClose"
         class="modal"
       >
-        <span>Github</span>
-        <span slot="footer" class="dialog-footer">
-          <!-- TODO: Add details -->
-        </span>
+        <ul v-for="person in personalDetails" :key="person" class="person">
+          <li class="name">{{ person.name }}</li>
+          <li class="info">{{ person.github }}</li>
+        </ul>
       </el-dialog>
     </div>
 
@@ -161,7 +160,8 @@
 import MetaMaskConnect from '../../components/MetaMaskConnect'
 import { compToSign } from '@/utils/misc'
 import tokens from '../../eth/tokens'
-
+import personalDetails from './personalDetails.js'
+console.log(personalDetails)
 export default {
   components: { MetaMaskConnect },
   data: () => ({
@@ -195,7 +195,8 @@ export default {
         default: require('../../assets/icons/github.svg'),
         hover: require('../../assets/icons/github-highlight.svg')
       }
-    }
+    },
+    personalDetails
   }),
   methods: {
     returnHome() {
@@ -271,5 +272,12 @@ footer > div {
   left: 0;
   margin: auto;
   z-index: 3;
+}
+.person {
+  font-family: 'Work Sans';
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 </style>
