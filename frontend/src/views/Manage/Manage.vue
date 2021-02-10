@@ -1,6 +1,6 @@
 <template>
   <el-container id="main-container" class="h-screen">
-    <el-aside class="flex flex-col bg-tgray-600 text-white">
+    <el-aside class="flex flex-col bg-tgray-700 text-white">
       <div
         @click="returnHome"
         class="cursor-pointer h-1/6 flex items-center
@@ -12,18 +12,18 @@
       <div
         id="manage-nav"
         class="h-2/3 mt-20 flex flex-col pl-16 pr-8 text-left
-        border-none bg-tgray-600"
+        border-none bg-tgray-700"
         router
       >
         <router-link
           v-for="menuPath in menuPaths"
           :key="menuPath.dest"
           :to="`/manage/${menuPath.dest}`"
-          class="flex my-4 items-center transform hover:bg-tgray-500 h-16 p-4
+          class="flex my-4 items-center transform hover:bg-tgray-600 h-16 p-4
           rounded-lg"
         >
           <div
-            class="w-7 h-7 bg-tgray-400 p-1 flex justify-center items-center
+            class="w-7 h-7 bg-tgray-500 p-1 flex justify-center items-center
             rounded-lg mr-4"
           >
             <i :class="menuPath.icon" class="transform scale-110"></i>
@@ -122,6 +122,6 @@ export default {
   @apply bg-gray-800 border-none h-12 rounded-lg;
 }
 .el-input > input.el-input__inner::placeholder {
-  @apply text-base text-tgray-200 text-opacity-60;
+  @apply text-base text-tgray-100 text-opacity-60;
 }
 </style>

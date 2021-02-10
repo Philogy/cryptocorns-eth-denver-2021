@@ -8,11 +8,13 @@ module.exports = {
       },
       colors: {
         tgray: {
-          200: '#E0E0E0',
-          300: '#BDBDBD',
-          400: '#4C4B58',
-          500: '#2C2A35',
-          600: '#1F2025',
+          100: '#E0E0E0',
+          200: '#BDBDBD',
+          300: '#828282',
+          400: '#7B8093',
+          500: '#4C4B58',
+          600: '#2C2A35',
+          700: '#1F2025',
           800: '#131417',
           900: '#0D0D0F'
         },
@@ -26,8 +28,8 @@ module.exports = {
       fontFamily: {
         serif: ['Work Sans']
       },
-      backgroundImage: theme => ({
-        'landing-page': "url('landing-bg.svg')"
+      backgroundImage: () => ({
+        'landing-page': 'url(\'landing-bg.svg\')'
       })
     }
   },

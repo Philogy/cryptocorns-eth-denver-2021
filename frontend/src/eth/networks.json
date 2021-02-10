@@ -1,0 +1,10 @@
+{
+  "0x1": { "name": "Mainnet", "main": true, "usable": true, "type": "MAIN" },
+  "0x3": { "name": "Ropsten", "main": false, "usable": true, "type": "TESTNET" },
+  "0x4": { "name": "Rinkeby", "main": false, "usable": false, "type": "COMMON" },
+  "0x5": { "name": "Goerli", "main": false, "usable": false, "type": "COMMON" },
+  "0x2a": { "name": "Kovan", "main": false, "usable": false, "type": "COMMON" },
+  "0x38": { "name": "BSC", "main": false, "usable": false, "type": "COMMON" },
+  "0x64": { "name": "xDai", "main": false, "usable": false, "type": "COMMON" },
+  "0x89": { "name": "Matic", "main": false, "usable": false, "type": "COMMON" }
+}
