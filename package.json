@@ -1,0 +1,39 @@
+{
+  "name": "cryptocorns",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=development nodemon ./backend/app.js",
+    "build": "cd frontend && npm install && npm run build",
+    "start": "node ./backend/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrClottom/cryptocorns-eth-denver-2021.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MrClottom/cryptocorns-eth-denver-2021/issues"
+  },
+  "homepage": "https://github.com/MrClottom/cryptocorns-eth-denver-2021#readme",
+  "dependencies": {
+    "connect-history-api-fallback": "^1.6.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.5.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "engines": {
+    "node": "15.x"
+  }
+}

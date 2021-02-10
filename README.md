@@ -1,1 +1,1 @@
-# Cryptocorn project for Eth denver 2021
+# Verager protocol - a ETH Denver 2021 project
