@@ -7,11 +7,14 @@ import router from './router'
 import store from './store'
 
 import { capitalize } from './utils/misc'
+import WalletIcon from '@/components/icons/WalletIcon'
 
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.filter('capitalize', capitalize)
+
+Vue.component('wallet-icon', WalletIcon)
 
 new Vue({
   el: '#app',

@@ -1,3 +1,5 @@
+import networks from '@/eth/networks'
+
 const listenTo = (emitter, eventName, callback) => {
   emitter.on(eventName, callback)
   return () => {
@@ -5,4 +7,17 @@ const listenTo = (emitter, eventName, callback) => {
   }
 }
 
-export { listenTo }
+const getNetwork = chainId => {
+  if (chainId === null) return null
+
+  const network = networks[chainId] ?? {
+    name: `Unknown ${chainId}`,
+    main: false,
+    usable: false,
+    type: 'COMMON'
+  }
+  network.chainId = chainId
+  return network
+}
+
+export { listenTo, getNetwork }

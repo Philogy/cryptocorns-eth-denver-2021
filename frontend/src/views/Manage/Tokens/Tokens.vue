@@ -27,6 +27,6 @@ export default {
 }
 
 #token-submenu > a {
-  @apply mx-1 text-xl font-bold px-4 text-tgray-300;
+  @apply mx-1 text-xl font-bold px-4 text-tgray-200;
 }
 </style>

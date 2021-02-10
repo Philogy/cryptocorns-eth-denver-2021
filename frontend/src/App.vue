@@ -19,7 +19,7 @@ body * {
 }
 
 .el-popper {
-  @apply bg-tgray-600 border-none;
+  @apply bg-tgray-700 border-none;
 }
 .el-popper > .popper__arrow {
   border-bottom-color: #1f2025 !important;
@@ -39,7 +39,7 @@ body * {
 .el-table .el-table__header tr,
 .el-table tr.el-table__row,
 .el-table td {
-  @apply bg-tgray-500 border-none !important;
+  @apply bg-tgray-600 border-none !important;
 }
 
 .el-table td {
@@ -61,7 +61,7 @@ body * {
 }
 
 .el-table thead > tr > th {
-  @apply bg-tgray-600 border-none !important;
+  @apply bg-tgray-700 border-none !important;
 }
 
 .el-table::before {
