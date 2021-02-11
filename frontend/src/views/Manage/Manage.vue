@@ -31,7 +31,149 @@
           <span class="text-xl font-medium">{{ menuPath.text }}</span>
         </router-link>
       </div>
+
+      <footer>
+        <div>
+          <button type="text" @click="emailVisible = true">
+            <img
+              :src="hovered === 'email' ? icons.email.hover : icons.email.default"
+              @mouseover="hovered = 'email'"
+              @mouseleave="hovered = null"
+              class="icon"
+              alt="Email"
+            />
+          </button>
+          <button type="text" @click="telegramVisible = true">
+            <img
+              :src="hovered === 'telegram' ? icons.telegram.hover : icons.telegram.default"
+              @mouseover="hovered = 'telegram'"
+              @mouseleave="hovered = null"
+              class="icon"
+              alt="Telegram"
+            />
+          </button>
+          <button type="text" @click="twitterVisible = true">
+            <img
+              :src="hovered === 'twitter' ? icons.twitter.hover : icons.twitter.default"
+              @mouseover="hovered = 'twitter'"
+              @mouseleave="hovered = null"
+              class="icon"
+              alt="Twitter"
+            />
+          </button>
+          <button
+            type="text"
+            @click="githubVisible = true"
+            @mouseover="hovered = 'github'"
+            @mouseleave="hovered = null"
+          >
+            <img
+              :src="hovered === 'github' ? icons.github.hover : icons.github.default"
+              class="icon"
+              alt="Github"
+            />
+          </button>
+        </div>
+      </footer>
     </el-aside>
+
+    <div>
+      <el-dialog title="Email" :visible.sync="emailVisible" top="35vh" width="560px">
+        <table>
+          <tr v-for="person in personalDetails" :key="person.name">
+            <td class="name">
+              {{ person.name }}
+            </td>
+            <td v-if="person.email" class="detail">
+              {{ person.email }}
+            </td>
+            <td v-else>-</td>
+          </tr>
+        </table>
+      </el-dialog>
+
+      <el-dialog title="Telegram" :visible.sync="telegramVisible" top="35vh" width="560px">
+        <table>
+          <tr v-for="person in personalDetails" :key="person.name">
+            <td class="name">
+              {{ person.name }}
+            </td>
+            <td v-if="person.telegram" class="detail">
+              {{ person.telegram }}
+            </td>
+            <td v-else>
+              -
+            </td>
+          </tr>
+        </table>
+      </el-dialog>
+
+      <el-dialog title="Twitter" :visible.sync="twitterVisible" top="35vh" width="560px">
+        <table>
+          <tr v-for="person in personalDetails" :key="person.name">
+            <td class="name">
+              {{ person.name }}
+            </td>
+            <td class="detail">
+              <a v-if="person.twitter" :href="'https://twitter.com/' + person.twitter" target="_blank">🔗 {{ person.twitter }}</a>
+              <p v-else>-</p>
+            </td>
+          </tr>
+        </table>
+      </el-dialog>
+
+      <el-dialog title="Github" :visible.sync="githubVisible" top="35vh" width="560px">
+        <table>
+          <tr v-for="person in personalDetails" :key="person.name">
+            <td class="name">
+              {{ person.name }}
+            </td>
+            <td class="detail">
+              <a v-if="person.github" :href="'https://github.com/' + person.github" target="_blank">🔗 {{ person.github }}</a>
+              <p v-else>-</p>
+            </td>
+          </tr>
+        </table>
+      </el-dialog>
+
+      <!-- <el-dialog
+        title="Telegram"
+        :visible.sync="telegramVisible"
+        width="30%"
+        :before-close="handleClose"
+        class="modal"
+      >
+        <ul v-for="person in personalDetails" :key="person" class="person">
+          <li class="name">{{ person.name }}</li>
+          <li class="info">{{ person.telegram }}</li>
+        </ul>
+      </el-dialog>
+      <el-dialog
+        title="Twitter"
+        :visible.sync="twitterVisible"
+        width="30%"
+        :before-close="handleClose"
+        class="modal"
+      >
+        <ul v-for="person in personalDetails" :key="person" class="person">
+          <li class="name">{{ person.name }}</li>
+          <li class="info">{{ person.twitter }}</li>
+        </ul>
+      </el-dialog>
+      <el-dialog
+        title="Github"
+        :visible.sync="githubVisible"
+        width="30%"
+        :before-close="handleClose"
+        class="modal"
+      >
+        <ul v-for="person in personalDetails" :key="person" class="person">
+          <li class="name">{{ person.name }}</li>
+          <li class="info">{{ person.github }}</li>
+        </ul>
+      </el-dialog> -->
+    </div>
+
     <el-container class="bg-tgray-800 h-screen flex flex-col">
       <div class="w-full h-1/6 px-8 flex items-center">
         <div class="w-full flex justify-between items-center space-x-16">
@@ -64,7 +206,8 @@
 import MetaMaskConnect from '../../components/MetaMaskConnect'
 import { compToSign } from '@/utils/misc'
 import tokens from '../../eth/tokens'
-
+import personalDetails from './personalDetails.js'
+console.log(personalDetails)
 export default {
   components: { MetaMaskConnect },
   data: () => ({
@@ -75,7 +218,31 @@ export default {
       { text: 'Rebalance', icon: 'el-icon-setting', dest: 'rebalance' }
     ],
     tokens,
-    filterOutNoMatch: true
+    filterOutNoMatch: true,
+    emailVisible: false,
+    telegramVisible: false,
+    twitterVisible: false,
+    githubVisible: false,
+    hovered: null,
+    icons: {
+      email: {
+        default: require('../../assets/icons/email.svg'),
+        hover: require('../../assets/icons/email-highlight.svg')
+      },
+      telegram: {
+        default: require('../../assets/icons/telegram.svg'),
+        hover: require('../../assets/icons/telegram-highlight.svg')
+      },
+      twitter: {
+        default: require('../../assets/icons/twitter.svg'),
+        hover: require('../../assets/icons/twitter-highlight.svg')
+      },
+      github: {
+        default: require('../../assets/icons/github.svg'),
+        hover: require('../../assets/icons/github-highlight.svg')
+      }
+    },
+    personalDetails
   }),
   methods: {
     returnHome() {
@@ -113,15 +280,48 @@ export default {
 #manage-nav > .router-link-active > span {
   @apply text-tblue-200;
 }
-
 #manage-nav > .router-link-active > div {
   @apply bg-tblue-200;
 }
-
 .el-input > input.el-input__inner {
   @apply bg-gray-800 border-none h-12 rounded-lg;
 }
 .el-input > input.el-input__inner::placeholder {
   @apply text-base text-tgray-100 text-opacity-60;
+}
+footer {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  margin-bottom: 17px;
+  justify-content: center;
+}
+footer > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 204px;
+  margin-bottom: 6px;
+}
+.icon {
+  width: 19px;
+}
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+tr {
+  line-height: 32px;
+}
+.name {
+  min-width: 320px;
+}
+.detail {
+  min-width: 120px;
+}
+a:hover {
+  color: #2d76d9;
 }
 </style>
