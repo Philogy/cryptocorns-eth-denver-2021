@@ -3,43 +3,38 @@
     <el-table id="token-list" :data="tokens" @current-change="onRowSelect">
       <el-table-column width="120">
         <template slot-scope="{ row }">
-          <div class="token-pair relative flex h-12">
-            <img :src="row.urls.primary" class="primary" />
-            <img :src="row.urls.secondary" class="secondary" />
-          </div>
+          <coin-pair
+            :tokenA="row.primary"
+            :tokenB="row.secondary"
+            class="w-20 h-12 ml-4"
+          ></coin-pair>
         </template>
       </el-table-column>
       <el-table-column property="pair" label="Token Pair" width="250"> </el-table-column>
       <el-table-column property="type" label="Type" width="200"></el-table-column>
       <el-table-column property="leverage" label="Leverage Factor"></el-table-column>
     </el-table>
+    <p class="text-2xl font-normal text-center mt-4">More tokens coming soon...</p>
   </div>
 </template>
 
 <script>
-import tokens from '@/eth/tokens'
+import CoinPair from '@/components/CoinPair'
 import { capitalize } from '@/utils/misc'
-import { getTokenIcon } from '@/utils/tokens'
+import { getLeverTokens } from '@/utils/tokens'
 
 export default {
+  components: { CoinPair },
   data: () => ({
-    rawTokenData: tokens
+    tokenData: getLeverTokens()
   }),
   computed: {
     tokens() {
-      return this.rawTokenData.map(({ collat, debt, type, leverage, ...other }) => {
-        const [primary, secondary] = type === 'LONG' ? [collat, debt] : [debt, collat]
+      return this.tokenData.map(({ type, leverage, ...other }) => {
         return {
           ...other,
-          pair: `${primary}-${secondary}`,
-          collat,
-          debt,
           type: capitalize(type),
-          leverage: `${leverage}x`,
-          urls: {
-            primary: getTokenIcon(primary),
-            secondary: getTokenIcon(secondary)
-          }
+          leverage: `${leverage}x`
         }
       })
     }
@@ -71,17 +66,5 @@ export default {
 
 #token-list.el-table .el-table__body-wrapper table {
   border-spacing: 0 1rem;
-}
-
-#token-list .token-pair img {
-  @apply h-full;
-}
-
-#token-list .primary {
-  @apply z-10;
-}
-
-#token-list .secondary {
-  @apply absolute left-8;
 }
 </style>

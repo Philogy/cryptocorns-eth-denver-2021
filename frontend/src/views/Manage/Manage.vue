@@ -40,20 +40,33 @@
             placeholder="Search Leveraged Tokens"
             :fetch-suggestions="findTokens"
             v-model="tokenSearchText"
+            @select="handleSearchSelect"
           >
+            <i
+              slot="prefix"
+              class="el-input__icon el-icon-close cursor-pointer"
+              @click="clearSearch"
+            ></i>
             <i
               slot="suffix"
               class="el-input__icon el-icon-search transform
               scale-125"
             ></i>
             <template slot-scope="{ item }">
-              <span>{{ item.value }}</span>
+              <div class="flex items-center space-x-2">
+                <coin-pair
+                  :tokenA="item.token.primary"
+                  :tokenB="item.token.secondary"
+                  class="w-8 h-5"
+                ></coin-pair>
+                <span>{{ item.value }}</span>
+              </div>
             </template>
           </el-autocomplete>
           <meta-mask-connect></meta-mask-connect>
         </div>
       </div>
-      <el-main>
+      <el-container>
         <el-header class="flex justify-between items-center">
           <div id="token-submenu">
             <router-link v-for="subRoute in subRoutes" :key="subRoute.path" :to="subRoute.path">
@@ -62,21 +75,23 @@
           </div>
           <account-display></account-display>
         </el-header>
-        <router-view></router-view>
-      </el-main>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+      </el-container>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import MetaMaskConnect from '../../components/MetaMaskConnect'
-import { compToSign, getRouteMeta } from '@/utils/misc'
-import { createLeverDesc } from '@/utils/tokens'
-import tokens from '../../eth/tokens'
+import MetaMaskConnect from '@/components/MetaMaskConnect'
 import AccountDisplay from '@/components/AccountDisplay'
+import CoinPair from '@/components/CoinPair'
+import { compToSign, getRouteMeta } from '@/utils/misc'
+import { getLeverTokens } from '@/utils/tokens'
 
 export default {
-  components: { MetaMaskConnect, AccountDisplay },
+  components: { MetaMaskConnect, AccountDisplay, CoinPair },
   data: () => ({
     tokenSearchText: '',
     menuPaths: [
@@ -84,7 +99,7 @@ export default {
       { text: 'Buy / Sell Tokens', icon: 'el-icon-sort', dest: 'trade' },
       { text: 'Rebalance', icon: 'el-icon-setting', dest: 'rebalance' }
     ],
-    tokens,
+    tokens: getLeverTokens(),
     filterOutNoMatch: true
   }),
   methods: {
@@ -93,10 +108,9 @@ export default {
     },
     findTokens(queryString, cb) {
       const tokens = this.tokens.map(token => {
-        const desc = createLeverDesc(token)
-        const index = desc.toLowerCase().indexOf(queryString.toLowerCase())
+        const index = token.desc.toLowerCase().indexOf(queryString.toLowerCase())
 
-        return { value: desc, index: index !== -1 ? index : null, token }
+        return { value: token.desc, index: index !== -1 ? index : null, token }
       })
 
       tokens.sort(({ index: a }, { index: b }) => {
@@ -110,6 +124,13 @@ export default {
       } else {
         cb(tokens)
       }
+    },
+    handleSearchSelect({ token }) {
+      this.clearSearch()
+      this.$router.push({ path: `/manage/tokens/token/${token.address}` })
+    },
+    clearSearch() {
+      this.tokenSearchText = ''
     }
   },
   computed: {

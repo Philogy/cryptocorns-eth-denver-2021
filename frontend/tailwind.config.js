@@ -6,6 +6,9 @@ module.exports = {
       borderWidth: {
         3: '3px'
       },
+      spacing: {
+        '18': '4.5rem'
+      },
       colors: {
         tgray: {
           100: '#E0E0E0',
@@ -23,6 +26,9 @@ module.exports = {
         },
         tred: {
           100: '#CD6767'
+        },
+        boxShadow: {
+          'inner-thick': 'inset 2px 2px 4px 1px rgba(0, 0, 0, 0.25)'
         }
       },
       fontFamily: {

@@ -1,5 +1,5 @@
 <template>
-  <el-container class="flex flex-col">
+  <el-container class="flex flex-col h-full">
     <router-link
       to="/manage/tokens/all"
       class="font-medium flex items-center text-lg text-tgray-200 mb-4"

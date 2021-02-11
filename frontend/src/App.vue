@@ -64,4 +64,12 @@ body * {
 .el-button.is-loading::before {
   @apply hidden;
 }
+
+.el-button.el-button--primary {
+  @apply bg-tblue-200 border-tblue-200 outline-none;
+}
+
+.el-button.el-button--primary:active {
+  @apply transform scale-110;
+}
 </style>
