@@ -17,7 +17,9 @@ export default {
 body * {
   font-family: 'Work Sans';
 }
-
+#app {
+  min-width: 650px;
+}
 .el-popper {
   @apply bg-tgray-700 border-none;
 }

@@ -99,10 +99,18 @@ contract EthDaiLong is ERC20, IUniswapV2Callee {
         }
 
         (uint256 newDebt, uint256 newCollat) = getCurrentCollatRatio();
+
+        uint256 newRatio;
+        if (newDebt == 0 && newCollat == 0) {
+            newRatio = 0;
+        } else {
+            newRatio = newDebt.mul(SCALE).div(newCollat);
+        }
+
         emit Rebalance(
             positiveRebalance,
             currentRatio,
-            newDebt.mul(SCALE).div(newCollat)
+            newRatio
         );
     }
 
@@ -143,9 +151,17 @@ contract EthDaiLong is ERC20, IUniswapV2Callee {
         _currentlySwapping = false;
     }
 
+    function redeem(uint256 amount) external {
+        _redeemTo(msg.sender, amount);
+    }
+
+    function redeemTo(address payable recipient, uint256 amount) external {
+        _redeemTo(recipient, amount);
+    }
+
     function getEquity() public returns(uint256, uint256) {
-        uint256 value = collateralCToken.balanceOfUnderlying(address(this));
-        uint256 debt = debtCToken.borrowBalanceCurrent(address(this));
+        uint256 value = getUnderlyingCollateral();
+        uint256 debt = getUnderlyingDebt();
 
         uint256 debtAsEth = debt.mul(getDaiPrice()).div(getEthPrice());
 
@@ -154,13 +170,21 @@ contract EthDaiLong is ERC20, IUniswapV2Callee {
     }
 
     function getCurrentCollatRatio() public returns(uint256, uint256) {
-        uint256 debtDai = debtCToken.borrowBalanceCurrent(address(this));
+        uint256 debtDai = getUnderlyingDebt();
         uint256 debtUsd = debtDai.mul(getDaiPrice());
 
-        uint256 valueEth = collateralCToken.balanceOfUnderlying(address(this));
+        uint256 valueEth = getUnderlyingCollateral();
         uint256 collatUsd = valueEth.mul(getEthPrice());
 
         return (debtUsd, collatUsd);
+    }
+
+    function getUnderlyingDebt() public returns(uint256) {
+        return debtCToken.borrowBalanceCurrent(address(this));
+    }
+
+    function getUnderlyingCollateral() public returns(uint256) {
+        return collateralCToken.balanceOfUnderlying(address(this));
     }
 
     function getDaiPrice() public view returns(uint256) {
@@ -169,5 +193,30 @@ contract EthDaiLong is ERC20, IUniswapV2Callee {
 
     function getEthPrice() public view returns(uint256) {
         return priceOracle.price("ETH");
+    }
+
+    function _redeemTo(address payable recipient, uint256 amount) internal {
+        require(amount > 0, "Lever Token: Can't redeem nothing");
+        require(amount >= balanceOf(msg.sender), "Lever Token: Insufficient balance");
+
+        rebalance();
+
+        uint256 debtDai = getUnderlyingDebt();
+        uint256 debtShare = debtDai.mul(amount).div(totalSupply());
+
+        _currentlySwapping = true;
+        tokenPair.swap(debtShare, 0, address(this), new bytes(1));
+
+        (uint256 positiveEthEquity,) = getEquity();
+        require(positiveEthEquity > 0, "Lever Token: No equity");
+
+        uint256 equityShare = positiveEthEquity.mul(amount).div(totalSupply());
+        require(
+            collateralCToken.redeemUnderlying(equityShare) == 0,
+            "Lever token: redeem comp error"
+        );
+
+        _burn(msg.sender, amount);
+        recipient.transfer(equityShare);
     }
 }
