@@ -25,4 +25,11 @@ const defaultPath = ({ path }) => ({ path: '', redirect: path })
 
 const capitalize = string => `${string[0].toUpperCase()}${string.slice(1).toLowerCase()}`
 
-export { compToSign, defaultPath, capitalize, copyToClipboard }
+const getRouteMeta = route => {
+  const meta = route?.meta ?? null
+
+  if (typeof meta === 'function') return meta(route)
+  return meta
+}
+
+export { compToSign, defaultPath, capitalize, copyToClipboard, getRouteMeta }

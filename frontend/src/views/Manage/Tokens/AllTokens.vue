@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table id="token-list" :data="tokens">
+    <el-table id="token-list" :data="tokens" @current-change="onRowSelect">
       <el-table-column width="120">
         <template slot-scope="{ row }">
           <div class="token-pair relative flex h-12">
@@ -27,9 +27,10 @@ export default {
   }),
   computed: {
     tokens() {
-      return this.rawTokenData.map(({ collat, debt, type, leverage }) => {
+      return this.rawTokenData.map(({ collat, debt, type, leverage, ...other }) => {
         const [primary, secondary] = type === 'LONG' ? [collat, debt] : [debt, collat]
         return {
+          ...other,
           pair: `${primary}-${secondary}`,
           collat,
           debt,
@@ -41,6 +42,11 @@ export default {
           }
         }
       })
+    }
+  },
+  methods: {
+    onRowSelect({ address }) {
+      this.$router.push({ path: `/manage/tokens/token/${address}` })
     }
   }
 }
@@ -55,8 +61,16 @@ export default {
   @apply text-lg font-medium;
 }
 
+#token-list .el-table__header-wrapper tr {
+  @apply bg-tgray-700 !important;
+}
+
 #token-list .el-table__body tr {
-  @apply text-xl font-normal;
+  @apply text-xl font-normal bg-tgray-600 hover:bg-tgray-500 cursor-pointer h-24;
+}
+
+#token-list.el-table .el-table__body-wrapper table {
+  border-spacing: 0 1rem;
 }
 
 #token-list .token-pair img {

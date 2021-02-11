@@ -15,4 +15,9 @@ const getTokenIcon = symbol => {
   return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
 }
 
-export { tokenAddresses, getTokenIcon, getTokenAddress }
+const createLeverDesc = ({ collat, debt, leverage, type }) => {
+  const [primary, secondary] = type === 'LONG' ? [collat, debt] : [debt, collat]
+  return `${primary}-${secondary} ${leverage}x ${type[0]}${type.slice(1).toLowerCase()}`
+}
+
+export { tokenAddresses, getTokenIcon, getTokenAddress, createLeverDesc }

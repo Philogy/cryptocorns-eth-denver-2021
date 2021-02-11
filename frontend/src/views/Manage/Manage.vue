@@ -54,6 +54,14 @@
         </div>
       </div>
       <el-main>
+        <el-header class="flex justify-between items-center">
+          <div id="token-submenu">
+            <router-link v-for="subRoute in subRoutes" :key="subRoute.path" :to="subRoute.path">
+              {{ subRoute.label }}
+            </router-link>
+          </div>
+          <account-display></account-display>
+        </el-header>
         <router-view></router-view>
       </el-main>
     </el-container>
@@ -62,11 +70,13 @@
 
 <script>
 import MetaMaskConnect from '../../components/MetaMaskConnect'
-import { compToSign } from '@/utils/misc'
+import { compToSign, getRouteMeta } from '@/utils/misc'
+import { createLeverDesc } from '@/utils/tokens'
 import tokens from '../../eth/tokens'
+import AccountDisplay from '@/components/AccountDisplay'
 
 export default {
-  components: { MetaMaskConnect },
+  components: { MetaMaskConnect, AccountDisplay },
   data: () => ({
     tokenSearchText: '',
     menuPaths: [
@@ -81,13 +91,9 @@ export default {
     returnHome() {
       this.$router.push({ path: '/home' })
     },
-    createDesc({ collat, debt, leverage, type }) {
-      const [primary, secondary] = type === 'LONG' ? [collat, debt] : [debt, collat]
-      return `${primary}-${secondary} ${leverage}x ${type[0]}${type.slice(1).toLowerCase()}`
-    },
     findTokens(queryString, cb) {
       const tokens = this.tokens.map(token => {
-        const desc = this.createDesc(token)
+        const desc = createLeverDesc(token)
         const index = desc.toLowerCase().indexOf(queryString.toLowerCase())
 
         return { value: desc, index: index !== -1 ? index : null, token }
@@ -104,6 +110,11 @@ export default {
       } else {
         cb(tokens)
       }
+    }
+  },
+  computed: {
+    subRoutes() {
+      return getRouteMeta(this.$route)?.subMenuRoutes ?? null
     }
   }
 }
@@ -123,5 +134,13 @@ export default {
 }
 .el-input > input.el-input__inner::placeholder {
   @apply text-base text-tgray-100 text-opacity-60;
+}
+
+#token-submenu > .router-link-active {
+  @apply text-blue-500 border-b-3 pb-1 border-blue-500;
+}
+
+#token-submenu > a {
+  @apply mx-1 text-xl font-bold px-4 text-tgray-200 text-center;
 }
 </style>
