@@ -1,25 +1,25 @@
 const personalDetails = [
   {
-    name: 'Philippe Dumonet (full-stack developer)',
+    name: 'Philippe Dumonet (lead dev)',
     email: '',
     telegram: 'crypto_don_draper',
     twitter: 'og_mrclottom',
-    github: 'MrClottom',
+    github: 'MrClottom'
   },
   {
-    name: 'Steven de Freitas (developer)',
+    name: 'Steven de Freitas (frontend)',
     email: '',
     telegram: 'istvn',
     twitter: '',
-    github: 'stvndf',
+    github: 'stvndf'
   },
   {
     name: 'Tolulope (UI/UX)',
     email: '',
     telegram: '',
     twitter: 'delighteebrands',
-    github: '',
-  },
+    github: ''
+  }
 ]
 
 export default personalDetails

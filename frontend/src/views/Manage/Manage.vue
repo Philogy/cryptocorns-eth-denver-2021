@@ -33,7 +33,7 @@
       </div>
 
       <footer>
-        <div>
+        <div id="footer-icons">
           <button type="text" @click="emailVisible = true">
             <img
               :src="hovered === 'email' ? icons.email.hover : icons.email.default"
@@ -115,7 +115,12 @@
               {{ person.name }}
             </td>
             <td class="detail">
-              <a v-if="person.twitter" :href="'https://twitter.com/' + person.twitter" target="_blank">🔗 {{ person.twitter }}</a>
+              <a
+                v-if="person.twitter"
+                :href="'https://twitter.com/' + person.twitter"
+                target="_blank"
+                >🔗 {{ person.twitter }}</a
+              >
               <p v-else>-</p>
             </td>
           </tr>
@@ -129,13 +134,14 @@
               {{ person.name }}
             </td>
             <td class="detail">
-              <a v-if="person.github" :href="'https://github.com/' + person.github" target="_blank">🔗 {{ person.github }}</a>
+              <a v-if="person.github" :href="'https://github.com/' + person.github" target="_blank"
+                >🔗 {{ person.github }}</a
+              >
               <p v-else>-</p>
             </td>
           </tr>
         </table>
       </el-dialog>
-
     </div>
 
     <el-container class="bg-tgray-800 h-screen flex flex-col">
@@ -231,7 +237,7 @@ export default {
         hover: require('../../assets/icons/github-highlight.svg')
       }
     },
-    personalDetails,
+    personalDetails
   }),
   methods: {
     returnHome() {
@@ -311,6 +317,9 @@ footer > div {
 }
 .icon {
   width: 19px;
+}
+#footer-icons button {
+  outline: none;
 }
 table {
   margin-left: auto;

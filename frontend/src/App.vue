@@ -74,4 +74,12 @@ body * {
 .el-button.el-button--primary:active {
   @apply transform scale-110;
 }
+
+button.el-dialog__headerbtn i.el-icon:focus {
+  outline: none;
+}
+
+button.el-dialog__headerbtn:focus {
+  outline: none;
+}
 </style>
