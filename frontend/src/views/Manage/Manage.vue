@@ -146,34 +146,59 @@
             placeholder="Search Leveraged Tokens"
             :fetch-suggestions="findTokens"
             v-model="tokenSearchText"
+            @select="handleSearchSelect"
           >
+            <i
+              slot="prefix"
+              class="el-input__icon el-icon-close cursor-pointer"
+              @click="clearSearch"
+            ></i>
             <i
               slot="suffix"
               class="el-input__icon el-icon-search transform
               scale-125"
             ></i>
             <template slot-scope="{ item }">
-              <span>{{ item.value }}</span>
+              <div class="flex items-center space-x-2">
+                <coin-pair
+                  :tokenA="item.token.primary"
+                  :tokenB="item.token.secondary"
+                  class="w-8 h-5"
+                ></coin-pair>
+                <span>{{ item.value }}</span>
+              </div>
             </template>
           </el-autocomplete>
           <meta-mask-connect></meta-mask-connect>
         </div>
       </div>
-      <el-main>
-        <router-view></router-view>
-      </el-main>
+      <el-container>
+        <el-header class="flex justify-between items-center">
+          <div id="token-submenu">
+            <router-link v-for="subRoute in subRoutes" :key="subRoute.path" :to="subRoute.path">
+              {{ subRoute.label }}
+            </router-link>
+          </div>
+          <account-display></account-display>
+        </el-header>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
+      </el-container>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import MetaMaskConnect from '../../components/MetaMaskConnect'
-import { compToSign } from '@/utils/misc'
-import tokens from '../../eth/tokens'
-import personalDetails from './personalDetails.js'
+import MetaMaskConnect from '@/components/MetaMaskConnect'
+import AccountDisplay from '@/components/AccountDisplay'
+import CoinPair from '@/components/CoinPair'
+import { compToSign, getRouteMeta } from '@/utils/misc'
+import { getLeverTokens } from '@/utils/tokens'
+import personalDetails from './personalDetails'
 
 export default {
-  components: { MetaMaskConnect },
+  components: { MetaMaskConnect, AccountDisplay, CoinPair },
   data: () => ({
     tokenSearchText: '',
     menuPaths: [
@@ -181,7 +206,7 @@ export default {
       { text: 'Buy / Sell Tokens', icon: 'el-icon-sort', dest: 'trade' },
       { text: 'Rebalance', icon: 'el-icon-setting', dest: 'rebalance' }
     ],
-    tokens,
+    tokens: getLeverTokens(),
     filterOutNoMatch: true,
     emailVisible: false,
     telegramVisible: false,
@@ -212,16 +237,11 @@ export default {
     returnHome() {
       this.$router.push({ path: '/home' })
     },
-    createDesc({ collat, debt, leverage, type }) {
-      const [primary, secondary] = type === 'LONG' ? [collat, debt] : [debt, collat]
-      return `${primary}-${secondary} ${leverage}x ${type[0]}${type.slice(1).toLowerCase()}`
-    },
     findTokens(queryString, cb) {
       const tokens = this.tokens.map(token => {
-        const desc = this.createDesc(token)
-        const index = desc.toLowerCase().indexOf(queryString.toLowerCase())
+        const index = token.desc.toLowerCase().indexOf(queryString.toLowerCase())
 
-        return { value: desc, index: index !== -1 ? index : null, token }
+        return { value: token.desc, index: index !== -1 ? index : null, token }
       })
 
       tokens.sort(({ index: a }, { index: b }) => {
@@ -235,6 +255,18 @@ export default {
       } else {
         cb(tokens)
       }
+    },
+    handleSearchSelect({ token }) {
+      this.clearSearch()
+      this.$router.push({ path: `/manage/tokens/token/${token.address}` })
+    },
+    clearSearch() {
+      this.tokenSearchText = ''
+    }
+  },
+  computed: {
+    subRoutes() {
+      return getRouteMeta(this.$route)?.subMenuRoutes ?? null
     }
   }
 }
@@ -252,6 +284,14 @@ export default {
 }
 .el-input > input.el-input__inner::placeholder {
   @apply text-base text-tgray-100 text-opacity-60;
+}
+
+#token-submenu > .router-link-active {
+  @apply text-blue-500 border-b-3 pb-1 border-blue-500;
+}
+
+#token-submenu > a {
+  @apply mx-1 text-xl font-bold px-4 text-tgray-200 text-center;
 }
 footer {
   position: fixed;

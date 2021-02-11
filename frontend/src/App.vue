@@ -34,18 +34,10 @@ body * {
   @apply hover:bg-tgray-800 mx-1 rounded-lg;
 }
 
-.el-table {
-  @apply bg-tgray-800;
-}
-
-.el-table .el-table__header tr,
-.el-table tr.el-table__row,
-.el-table td {
-  @apply bg-tgray-600 border-none !important;
-}
-
-.el-table td {
-  @apply h-24;
+.el-table,
+.el-table th,
+.el-table .el-table__body tr:hover > td {
+  @apply bg-transparent;
 }
 
 .el-table td:first-child {
@@ -62,19 +54,24 @@ body * {
   @apply rounded-lg;
 }
 
-.el-table thead > tr > th {
-  @apply bg-tgray-700 border-none !important;
+.el-table tr td,
+.el-table .el-table__header-wrapper th {
+  @apply border-none;
 }
 
 .el-table::before {
   @apply hidden;
 }
 
-.el-table .el-table__body-wrapper table {
-  border-spacing: 0 1rem;
-}
-
 .el-button.is-loading::before {
   @apply hidden;
+}
+
+.el-button.el-button--primary {
+  @apply bg-tblue-200 border-tblue-200 outline-none;
+}
+
+.el-button.el-button--primary:active {
+  @apply transform scale-110;
 }
 </style>

@@ -1,46 +1,47 @@
 <template>
   <div>
-    <el-table id="token-list" :data="tokens">
+    <el-table id="token-list" :data="tokens" @current-change="onRowSelect">
       <el-table-column width="120">
         <template slot-scope="{ row }">
-          <div class="token-pair relative flex h-12">
-            <img :src="row.urls.primary" class="primary" />
-            <img :src="row.urls.secondary" class="secondary" />
-          </div>
+          <coin-pair
+            :tokenA="row.primary"
+            :tokenB="row.secondary"
+            class="w-20 h-12 ml-4"
+          ></coin-pair>
         </template>
       </el-table-column>
       <el-table-column property="pair" label="Token Pair" width="250"> </el-table-column>
       <el-table-column property="type" label="Type" width="200"></el-table-column>
       <el-table-column property="leverage" label="Leverage Factor"></el-table-column>
     </el-table>
+    <p class="text-2xl font-normal text-center mt-4">More tokens coming soon...</p>
   </div>
 </template>
 
 <script>
-import tokens from '@/eth/tokens'
+import CoinPair from '@/components/CoinPair'
 import { capitalize } from '@/utils/misc'
-import { getTokenIcon } from '@/utils/tokens'
+import { getLeverTokens } from '@/utils/tokens'
 
 export default {
+  components: { CoinPair },
   data: () => ({
-    rawTokenData: tokens
+    tokenData: getLeverTokens()
   }),
   computed: {
     tokens() {
-      return this.rawTokenData.map(({ collat, debt, type, leverage }) => {
-        const [primary, secondary] = type === 'LONG' ? [collat, debt] : [debt, collat]
+      return this.tokenData.map(({ type, leverage, ...other }) => {
         return {
-          pair: `${primary}-${secondary}`,
-          collat,
-          debt,
+          ...other,
           type: capitalize(type),
-          leverage: `${leverage}x`,
-          urls: {
-            primary: getTokenIcon(primary),
-            secondary: getTokenIcon(secondary)
-          }
+          leverage: `${leverage}x`
         }
       })
+    }
+  },
+  methods: {
+    onRowSelect({ address }) {
+      this.$router.push({ path: `/manage/tokens/token/${address}` })
     }
   }
 }
@@ -55,19 +56,15 @@ export default {
   @apply text-lg font-medium;
 }
 
+#token-list .el-table__header-wrapper tr {
+  @apply bg-tgray-700 !important;
+}
+
 #token-list .el-table__body tr {
-  @apply text-xl font-normal;
+  @apply text-xl font-normal bg-tgray-600 hover:bg-tgray-500 cursor-pointer h-24;
 }
 
-#token-list .token-pair img {
-  @apply h-full;
-}
-
-#token-list .primary {
-  @apply z-10;
-}
-
-#token-list .secondary {
-  @apply absolute left-8;
+#token-list.el-table .el-table__body-wrapper table {
+  border-spacing: 0 1rem;
 }
 </style>
