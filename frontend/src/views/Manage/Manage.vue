@@ -78,19 +78,65 @@
     </el-aside>
 
     <div>
-      <el-dialog
-        title="Email"
-        :visible.sync="emailVisible"
-        width="30%"
-        :before-close="handleClose"
-        class="modal"
-      >
-        <ul v-for="person in personalDetails" :key="person" class="person">
-          <li class="name">{{ person.name }}</li>
-          <li class="info">{{ person.email }}</li>
-        </ul>
+      <el-dialog title="Email" :visible.sync="emailVisible" top="35vh" width="560px">
+        <table>
+          <tr v-for="person in personalDetails" :key="person.name">
+            <td class="name">
+              {{ person.name }}
+            </td>
+            <td v-if="person.email" class="detail">
+              {{ person.email }}
+            </td>
+            <td v-else>-</td>
+          </tr>
+        </table>
       </el-dialog>
-      <el-dialog
+
+      <el-dialog title="Telegram" :visible.sync="telegramVisible" top="35vh" width="560px">
+        <table>
+          <tr v-for="person in personalDetails" :key="person.name">
+            <td class="name">
+              {{ person.name }}
+            </td>
+            <td v-if="person.telegram" class="detail">
+              {{ person.telegram }}
+            </td>
+            <td v-else>
+              -
+            </td>
+          </tr>
+        </table>
+      </el-dialog>
+
+      <el-dialog title="Twitter" :visible.sync="twitterVisible" top="35vh" width="560px">
+        <table>
+          <tr v-for="person in personalDetails" :key="person.name">
+            <td class="name">
+              {{ person.name }}
+            </td>
+            <td class="detail">
+              <a v-if="person.twitter" :href="'https://twitter.com/' + person.twitter" target="_blank">🔗 {{ person.twitter }}</a>
+              <p v-else>-</p>
+            </td>
+          </tr>
+        </table>
+      </el-dialog>
+
+      <el-dialog title="Github" :visible.sync="githubVisible" top="35vh" width="560px">
+        <table>
+          <tr v-for="person in personalDetails" :key="person.name">
+            <td class="name">
+              {{ person.name }}
+            </td>
+            <td class="detail">
+              <a v-if="person.github" :href="'https://github.com/' + person.github" target="_blank">🔗 {{ person.github }}</a>
+              <p v-else>-</p>
+            </td>
+          </tr>
+        </table>
+      </el-dialog>
+
+      <!-- <el-dialog
         title="Telegram"
         :visible.sync="telegramVisible"
         width="30%"
@@ -125,7 +171,7 @@
           <li class="name">{{ person.name }}</li>
           <li class="info">{{ person.github }}</li>
         </ul>
-      </el-dialog>
+      </el-dialog> -->
     </div>
 
     <el-container class="bg-tgray-800 h-screen flex flex-col">
@@ -225,9 +271,6 @@ export default {
       } else {
         cb(tokens)
       }
-    },
-    handleClose(done) {
-      done()
     }
   }
 }
@@ -237,18 +280,15 @@ export default {
 #manage-nav > .router-link-active > span {
   @apply text-tblue-200;
 }
-
 #manage-nav > .router-link-active > div {
   @apply bg-tblue-200;
 }
-
 .el-input > input.el-input__inner {
   @apply bg-gray-800 border-none h-12 rounded-lg;
 }
 .el-input > input.el-input__inner::placeholder {
   @apply text-base text-tgray-200 text-opacity-60;
 }
-
 footer {
   position: fixed;
   bottom: 0;
@@ -268,16 +308,20 @@ footer > div {
 .icon {
   width: 19px;
 }
-.modal {
-  left: 0;
-  margin: auto;
-  z-index: 3;
+table {
+  margin-left: auto;
+  margin-right: auto;
 }
-.person {
-  font-family: 'Work Sans';
-  display: flex;
-  justify-content: space-between;
-  margin-top: 12px;
-  margin-bottom: 12px;
+tr {
+  line-height: 32px;
+}
+.name {
+  min-width: 320px;
+}
+.detail {
+  min-width: 120px;
+}
+a:hover {
+  color: #2d76d9;
 }
 </style>

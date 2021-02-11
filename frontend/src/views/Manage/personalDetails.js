@@ -1,24 +1,24 @@
 const personalDetails = [
   {
     name: 'Philippe Dumonet (full-stack developer)',
-    email: '-',
+    email: '',
     telegram: 'crypto_don_draper',
     twitter: 'og_mrclottom',
     github: 'MrClottom',
   },
   {
     name: 'Steven de Freitas (developer)',
-    email: '-',
+    email: '',
     telegram: 'istvn',
-    twitter: '-',
+    twitter: '',
     github: 'stvndf',
   },
   {
     name: 'Tolulope (UI/UX)',
-    email: '-',
-    telegram: '-',
+    email: '',
+    telegram: '',
     twitter: 'delighteebrands',
-    github: '-',
+    github: '',
   },
 ]
 
