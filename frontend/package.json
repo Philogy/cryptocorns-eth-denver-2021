@@ -15,6 +15,7 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.15.0",
     "postcss": "^7.0.35",
+    "safe-qmath": "^2.1.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
     "vue": "^2.6.11",
     "vue-router": "^3.5.1",

@@ -25,7 +25,11 @@ module.exports = {
           200: '#2F80ED'
         },
         tred: {
-          100: '#CD6767'
+          100: '#CD6767',
+          200: '#EB5757'
+        },
+        tgreen: {
+          200: '#27AE60'
         },
         boxShadow: {
           'inner-thick': 'inset 2px 2px 4px 1px rgba(0, 0, 0, 0.25)'

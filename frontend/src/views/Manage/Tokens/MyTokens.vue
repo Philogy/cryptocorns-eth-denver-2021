@@ -1,42 +1,72 @@
 <template>
-  <div>
-    <el-table v-if="myTokens.length > 0" id="token-list" :data="myTokens" highlight-current-row="true" sortable="true">
+  <div class="w-full h-full">
+    <el-table v-if="connected" :data="tokens" @current-change="onRowSelect" class="token-list">
       <el-table-column width="120">
         <template slot-scope="{ row }">
-          <div class="token-pair relative flex h-12">
-            <img :src="row.urls.primary" class="primary" />
-            <img :src="row.urls.secondary" class="secondary" />
-          </div>
+          <coin-pair :tokenA="row.primary" :tokenB="row.secondary" class=""></coin-pair>
         </template>
       </el-table-column>
       <el-table-column property="pair" label="Token Pair"> </el-table-column>
-      <el-table-column property="type" label="Type"></el-table-column>
+      <el-table-column property="type" label="Type">
+        <template slot-scope="{ row }">
+          <span :class="typeColor(row.type)">
+            {{ row.type }}
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column property="leverage" label="Leverage Factor"></el-table-column>
-      <el-table-column property="balance" label="Balance"></el-table-column>
+      <el-table-column property="balance" label="Balance">
+        <template slot-scope="{ row }">
+          <span>{{ fromAtomicUnits(row.balance, 18) | fullNumber }}</span>
+        </template>
+      </el-table-column>
     </el-table>
-    <p class="no-tokens" v-else>No tokens</p>
+    <div v-else class="h-full w-full flex flex-col justify-center items-center">
+      <div
+        class="w-32 h-32 bg-tgray-500 flex justify-center items-center
+        rounded-xl mb-8"
+      >
+        <img src="@/assets/icons/metamask.png" />
+      </div>
+      <p class="text-tgray-500">
+        <span class="text-tblue-200 cursor-pointer" @click="connect">
+          Connect your wallet
+        </span>
+        to view your leveraged tokens
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import BN from 'bn.js'
+import CoinPair from '@/components/CoinPair'
+import { mapGetters, mapState } from 'vuex'
+import { makeDisp, fromAtomicUnits } from '@/utils/tokens'
 
 export default {
+  components: { CoinPair },
   computed: {
-    ...mapGetters(['myTokens'])
+    ...mapGetters(['connected']),
+    ...mapState(['tokenData']),
+    tokens() {
+      const allCurrentTokens = this.tokenData ?? []
+
+      const ZERO = new BN('0')
+      return makeDisp(allCurrentTokens).filter(({ balance }) => !balance.eq(ZERO))
+    },
+    typeColor: () => type => {
+      return type === 'Long' ? 'text-tgreen-200' : 'text-tred-200'
+    }
+  },
+  methods: {
+    connect() {
+      this.$store.dispatch('connect', this.$message)
+    },
+    fromAtomicUnits,
+    onRowSelect({ address }) {
+      this.$router.push({ path: `/manage/tokens/token/${address}` })
+    }
   }
 }
 </script>
-
-<style scoped>
-#token-list {
-  min-width: 555px !important;
-}
-.el-table__empty-block {
-  display: none!important;
-}
-.no-tokens {
-  text-align: center;
-  margin-top: 18px;
-}
-</style>
