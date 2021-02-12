@@ -1,6 +1,11 @@
 <template>
   <div class="w-full h-full">
-    <el-table v-if="connected" :data="tokens" @current-change="onRowSelect" class="token-list">
+    <el-table
+      v-if="connected && tokens.length > 0"
+      :data="tokens"
+      @current-change="onRowSelect"
+      class="token-list"
+    >
       <el-table-column width="120">
         <template slot-scope="{ row }">
           <coin-pair :tokenA="row.primary" :tokenB="row.secondary" class=""></coin-pair>
@@ -21,6 +26,13 @@
         </template>
       </el-table-column>
     </el-table>
+    <div
+      v-else-if="tokens.length === 0"
+      class="w-full h-full flex justify-center items-center text-2xl
+      text-tgray-500"
+    >
+      <p>You don't own any tokens yet</p>
+    </div>
     <div v-else class="h-full w-full flex flex-col justify-center items-center">
       <div
         class="w-32 h-32 bg-tgray-500 flex justify-center items-center

@@ -18,15 +18,18 @@
     <div class="h-full px-4 py-8 flex flex-wrap content-start">
       <div class="stat-display">
         <span class="label">Total Equity</span>
-        <span class="info">2,384 ETH</span>
+        <span class="info"
+          >{{ ((2384 + Math.random() * 400) * Math.random() * 2) | fullNumber }}
+          {{ token.collat }}</span
+        >
       </div>
       <div class="stat-display">
         <span class="label">Equity / Token</span>
-        <span class="info">1.105 ETH</span>
+        <span class="info">{{ (1.105 + Math.random()) | fullNumber }} {{ token.collat }}</span>
       </div>
       <div class="stat-display">
         <span class="label">Current Price / Token</span>
-        <span class="info">2432.5 USD</span>
+        <span class="info">{{ (242.5 * Math.random() * 4) | fullNumber }} USD</span>
       </div>
       <div class="stat-display">
         <span class="label">Leverage</span>

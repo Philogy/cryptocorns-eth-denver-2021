@@ -31,6 +31,12 @@
         <router-link class="underline text-blue-400" to="#">testnet chain</router-link>
       </span>
     </p>
+    <p class="text-xs m-1 text-tgray-400 font-medium flex items-center" v-else-if="isMainnet">
+      <i class="el-icon-info pr-1 text-tblue-200"></i>
+      <span>
+        No tokens currently deployed on mainnet, switch to ropsten
+      </span>
+    </p>
   </div>
 </template>
 
@@ -65,6 +71,9 @@ export default {
     },
     isTestnet() {
       return this.network?.type === 'TESTNET'
+    },
+    isMainnet() {
+      return this.network?.type === 'MAIN'
     }
   },
   methods: {
