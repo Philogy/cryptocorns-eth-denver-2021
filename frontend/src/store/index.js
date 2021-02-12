@@ -21,48 +21,48 @@ export default new Vuex.Store({
     },
     tokenData: [
       // // Mock data:
-      // {
-      //   collat: 'ETH',
-      //   debt: 'DAI',
-      //   leverage: 2,
-      //   type: 'LONG',
-      //   balance: 12
-      // },
-      // {
-      //   collat: 'BAT',
-      //   debt: 'USDT',
-      //   leverage: 3,
-      //   type: 'SHORT',
-      //   balance: 4.9
-      // },
-      // {
-      //   collat: 'ETH',
-      //   debt: 'DAI',
-      //   leverage: 4,
-      //   type: 'LONG',
-      //   balance: 0.8
-      // },
-      // {
-      //   collat: 'ETH',
-      //   debt: 'DAI',
-      //   leverage: 2,
-      //   type: 'SHORT',
-      //   balance: 1223
-      // },
-      // {
-      //   collat: 'BAT',
-      //   debt: 'USDT',
-      //   leverage: 4,
-      //   type: 'LONG',
-      //   balance: 0
-      // },
-      // {
-      //   collat: 'BAT',
-      //   debt: 'USDT',
-      //   leverage: 3,
-      //   type: 'SHORT',
-      //   balance: 0
-      // }
+      {
+        collat: 'ETH',
+        debt: 'DAI',
+        leverage: 2,
+        type: 'LONG',
+        balance: 12
+      },
+      {
+        collat: 'BAT',
+        debt: 'USDT',
+        leverage: 3,
+        type: 'SHORT',
+        balance: 4.9
+      },
+      {
+        collat: 'ETH',
+        debt: 'DAI',
+        leverage: 4,
+        type: 'LONG',
+        balance: 0.8
+      },
+      {
+        collat: 'ETH',
+        debt: 'DAI',
+        leverage: 2,
+        type: 'SHORT',
+        balance: 1223
+      },
+      {
+        collat: 'BAT',
+        debt: 'USDT',
+        leverage: 4,
+        type: 'LONG',
+        balance: 0
+      },
+      {
+        collat: 'BAT',
+        debt: 'USDT',
+        leverage: 3,
+        type: 'SHORT',
+        balance: 0
+      }
     ]
   },
   getters: {
