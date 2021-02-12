@@ -4,6 +4,8 @@ import Vue from 'vue'
 import Web3 from 'web3'
 import detectEthereumProvider from '@metamask/detect-provider'
 import { listenTo, getNetwork } from '@/utils/web3'
+import { capitalize } from '@/utils/misc'
+import { getTokenIcon } from '@/utils/tokens'
 
 Vue.use(Vuex)
 
@@ -16,7 +18,52 @@ export default new Vuex.Store({
     listenerRemovers: {
       accountsChanged: null,
       chainChanged: null
-    }
+    },
+    tokenData: [
+      // // Mock data:
+      // {
+      //   collat: 'ETH',
+      //   debt: 'DAI',
+      //   leverage: 2,
+      //   type: 'LONG',
+      //   balance: 12
+      // },
+      // {
+      //   collat: 'BAT',
+      //   debt: 'USDT',
+      //   leverage: 3,
+      //   type: 'SHORT',
+      //   balance: 4.9
+      // },
+      // {
+      //   collat: 'ETH',
+      //   debt: 'DAI',
+      //   leverage: 4,
+      //   type: 'LONG',
+      //   balance: 0.8
+      // },
+      // {
+      //   collat: 'ETH',
+      //   debt: 'DAI',
+      //   leverage: 2,
+      //   type: 'SHORT',
+      //   balance: 1223
+      // },
+      // {
+      //   collat: 'BAT',
+      //   debt: 'USDT',
+      //   leverage: 4,
+      //   type: 'LONG',
+      //   balance: 0
+      // },
+      // {
+      //   collat: 'BAT',
+      //   debt: 'USDT',
+      //   leverage: 3,
+      //   type: 'SHORT',
+      //   balance: 0
+      // }
+    ]
   },
   getters: {
     connected({ accounts }) {
@@ -28,6 +75,22 @@ export default new Vuex.Store({
     },
     network({ chain }) {
       return getNetwork(chain)
+    },
+    myTokens({ tokenData }) {
+      let filteredTokens = tokenData.filter(t => t.balance > 0)
+      return filteredTokens.map(({ collat, debt, type, leverage, balance }) => {
+        let [primary, secondary] = type === 'LONG' ? [collat, debt] : [debt, collat]
+        return {
+          pair: `${primary}-${secondary}`,
+          type: capitalize(type),
+          leverage: `${leverage}x`,
+          balance,
+          urls: {
+            primary: getTokenIcon(primary),
+            secondary: getTokenIcon(secondary)
+          }
+        }
+      })
     }
   },
   actions: {
