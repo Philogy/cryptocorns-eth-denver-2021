@@ -3,7 +3,7 @@ pragma solidity ^0.7.6;
 
 import "../interfaces/ICompPriceOracle.sol";
 
-contract BasicPriceOralce {
+contract BasicPriceOracle {
     mapping(address => uint256) public prices;
 
     function setPrice(address priceOf, uint256 price) external {
