@@ -32,7 +32,7 @@
       </el-container>
 
       <div>
-        <el-dialog title="FAQ" :visible.sync="faqVisible" top="35vh" width="790px">
+        <el-dialog title="FAQ" :visible.sync="faqVisible" top="28vh" width="790px">
           <div v-for="i in faq" :key="i.question" class="my-6">
             <h3 class="text-xl break-words">{{ i.question }}</h3>
             <p class="break-words">{{i.answer}}</p>
@@ -118,5 +118,12 @@ div > h2 {
 }
 .nav-btn:hover {
   color: #2c75d8;
+}
+.nav-btn {
+  padding: 4px;
+  border: none;
+}
+.nav-btn:focus {
+  outline: none;
 }
 </style>

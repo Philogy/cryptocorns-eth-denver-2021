@@ -337,6 +337,9 @@ tr {
 a:hover {
   color: #2d76d9;
 }
+a>div>i {
+  color: white;
+}
 .el-dialog__header {
   padding-bottom: 0;
   word-break: break-word;

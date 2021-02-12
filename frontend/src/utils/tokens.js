@@ -12,9 +12,7 @@ const getTokenAddress = symbol => {
 }
 
 const getTokenIcon = symbol => {
-  if (symbol === 'ETH') return 'https://info.uniswap.org/static/media/eth.73dabb37.png'
-  const address = getTokenAddress(symbol)
-  return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`
+  return `https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@9ab8d6934b83a4aa8ae5e8711609a70ca0ab1b2b/svg/color/${symbol.toLowerCase()}.svg`
 }
 
 const createLeverDesc = ({ collat, debt, leverage, type }) => {
