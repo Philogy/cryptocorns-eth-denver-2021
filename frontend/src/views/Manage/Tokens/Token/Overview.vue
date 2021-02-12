@@ -82,11 +82,9 @@
         <el-form-item label="Gas fee"> </el-form-item>
         <el-form-item label="Total"> </el-form-item>
 
-        <!-- <el-form-item> -->
-          <el-button type="primary" class="submit-btn" @click="submitForm('ruleForm')"
-            >Create</el-button
-          >
-        <!-- </el-form-item> -->
+        <el-button type="primary" class="submit-btn" @click="submitForm('createForm')"
+          >Create</el-button
+        >
       </el-form>
     </el-dialog>
   </div>
@@ -126,7 +124,6 @@ export default {
     },
     submitForm(formName) {
       if (formName === 'createForm') {
-        alert('submit!')
         this.createVisible = false
       }
     }
