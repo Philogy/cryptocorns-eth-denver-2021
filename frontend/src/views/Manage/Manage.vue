@@ -178,7 +178,7 @@
           <meta-mask-connect></meta-mask-connect>
         </div>
       </div>
-      <el-container>
+      <el-container class="h-full overflow-hidden">
         <el-header class="flex justify-between items-center">
           <div id="token-submenu">
             <router-link v-for="subRoute in subRoutes" :key="subRoute.path" :to="subRoute.path">
@@ -209,7 +209,6 @@ export default {
     tokenSearchText: '',
     menuPaths: [
       { text: 'Leveraged Tokens', icon: 'el-icon-coin', dest: 'tokens' },
-      { text: 'Buy / Sell Tokens', icon: 'el-icon-sort', dest: 'trade' },
       { text: 'Rebalance', icon: 'el-icon-setting', dest: 'rebalance' }
     ],
     tokens: getLeverTokens(),
@@ -337,7 +336,7 @@ tr {
 a:hover {
   color: #2d76d9;
 }
-a>div>i {
+a > div > i {
   color: white;
 }
 .el-dialog__header {

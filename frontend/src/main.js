@@ -13,6 +13,12 @@ Vue.config.productionTip = false
 
 Vue.use(ElementUI)
 Vue.filter('capitalize', capitalize)
+Vue.filter('fullNumber', num => {
+  console.log('num: ', num)
+  return typeof num === 'number'
+    ? Intl.NumberFormat('en-us', { maximumFractionDigits: 3 }).format(num)
+    : num
+})
 
 Vue.component('wallet-icon', WalletIcon)
 

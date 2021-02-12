@@ -12,6 +12,7 @@ export default {
 }
 </script>
 
+<style src="./assets/scrollbar.css"></style>
 <style src="./assets/index.css"></style>
 <style>
 body * {

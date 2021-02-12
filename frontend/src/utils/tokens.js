@@ -1,4 +1,7 @@
 import tokens from '@/eth/tokens'
+import { capitalize } from './misc'
+import BN from 'bn.js'
+import { convertUQIntToFloat } from 'safe-qmath/utils'
 
 const tokenAddresses = {
   DAI: '0x6B175474E89094C44Da98b954EedeAC495271d0F',
@@ -35,4 +38,27 @@ const getLeverTokens = () => {
   })
 }
 
-export { tokenAddresses, getTokenIcon, getTokenAddress, createLeverDesc, getLeverTokens }
+const makeDisp = tokenList => {
+  return tokenList.map(({ type, leverage, ...other }) => {
+    return {
+      ...other,
+      type: capitalize(type),
+      leverage: `${leverage}x`
+    }
+  })
+}
+const fromAtomicUnits = (num, tokenDecimals) => {
+  if (num === null) return null
+  const uqInt = num.shln(64).div(new BN(10).pow(new BN(tokenDecimals)))
+  return convertUQIntToFloat(uqInt)
+}
+
+export {
+  tokenAddresses,
+  getTokenIcon,
+  getTokenAddress,
+  createLeverDesc,
+  getLeverTokens,
+  makeDisp,
+  fromAtomicUnits
+}
