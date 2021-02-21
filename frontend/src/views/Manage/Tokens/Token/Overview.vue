@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <el-dialog title="Create" :visible.sync="createVisible" top="35vh" width="560px">
+    <el-dialog title="Create" :visible.sync="createVisible" top="15vh" width="560px">
       <el-form
         :model="createForm"
         status-icon
@@ -50,7 +50,7 @@
         label-width="120px"
         class="create-form"
       >
-        <el-form-item label="Price" prop="price">
+        <el-form-item label="Price" class="el-form-item--label-top" prop="price">
           <el-input
             type="number"
             autocomplete="off"
@@ -58,7 +58,7 @@
             required="true"
           ></el-input>
         </el-form-item>
-        <el-form-item label="Amount" prop="amount">
+        <el-form-item label="Amount" class="el-form-item--label-top" prop="amount">
           <el-input
             type="number"
             autocomplete="off"
@@ -67,7 +67,7 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="Leverage">
+        <el-form-item label="Leverage" class="el-form-item--label-top">
           <el-radio-group v-model="radio1">
             <el-radio-button label="1x"></el-radio-button>
             <el-radio-button label="2x"></el-radio-button>
@@ -196,12 +196,53 @@ input[type='number'] {
 .el-dialog__title {
   color: white;
 }
+
+.el-form-item--label-top .el-form-item__label {
+  width: auto !important;
+  float: none;
+  display: inline-block;
+  text-align: left;
+  margin-left: 16px !important;
+  color: #bdbdbd;
+}
+.el-form-item--label-top .el-form-item__content {
+  margin-left: 16px !important;
+  margin-right: 16px !important;
+}
+.el-radio-group {
+  display: flex;
+  justify-content: space-between;
+}
 .el-radio-button__inner {
-  background-color: #4c4b58;
   color: white;
-  border: 1px solid #1f2025;
+  background-color: #4c4b58;
+  height: 24px;
+  width: 24px;
+  height: 38px;
+  width: 64px;
+  left: 0px;
+  top: 0px;
+  border-radius: 10px;
+  border: 0;
 }
 .el-radio-button:first-child .el-radio-button__inner {
-  border-left: 1px solid #1f2025;
+  border-radius: 10px;
+  border-left: 0;
+}
+.el-radio-button:last-child .el-radio-button__inner {
+  border-radius: 10px;
+}
+.el-radio-button__inner:hover {
+  background-color: #2f80ed;
+  color: white;
+}
+
+.el-form-item__label {
+  text-align: left;
+  margin-left: 16px;
+}
+.el-input > input.el-input__inner {
+  color: white;
+  border: 1px solid #4c4b58;
 }
 </style>
